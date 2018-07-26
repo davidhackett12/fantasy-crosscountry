@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:fragment="head">
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+<nav th:fragment="navigation">
+    <a href="/home">Home</a>
+    <a th:if= "${username}" href="/home/logout">Log Out</a>
+    <a th:unless= "${username}" href="/home/login">Login</a>
+    <a th:unless= "${username}" href= "/home/signup">Sign Up</a>
+
+</nav>
+
+</body>
+</html>
