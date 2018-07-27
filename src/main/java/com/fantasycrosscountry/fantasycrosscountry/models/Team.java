@@ -1,10 +1,8 @@
 package com.fantasycrosscountry.fantasycrosscountry.models;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Team {
@@ -20,6 +18,11 @@ public class Team {
 
     @ManyToOne
     private League league;
+
+    @OneToMany
+    @JoinColumn(name = "team_id")
+    private List<Runner> runners;
+
 
     public Team() {
     }
