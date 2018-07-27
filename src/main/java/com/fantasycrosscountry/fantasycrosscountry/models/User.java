@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Email;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 public class User {
@@ -23,6 +24,17 @@ public class User {
     @NotNull
     @Size(min = 5, max = 20)
     private String password;
+
+    @ManyToMany
+    @JoinColumn(name= "commissioner_id")
+    private List<League> commissionedLeagues;
+
+    @ManyToMany
+    private List<League> leagues;
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<Team> teams;
 
 
     public User() {
@@ -63,7 +75,34 @@ public class User {
         this.password = password;
     }
 
+    public List<League> getCommissionedLeagues() {
+        return commissionedLeagues;
     }
+
+    public void setCommissionedLeagues(List<League> commissionedLeagues) {
+        this.commissionedLeagues = commissionedLeagues;
+    }
+
+    public List<League> getLeagues() {
+        return leagues;
+    }
+
+    public void setLeagues(List<League> leagues) {
+        this.leagues = leagues;
+    }
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+    }
+
+    public void addLeague(League newLeague){
+        leagues.add(newLeague);
+    }
+}
 
 
 

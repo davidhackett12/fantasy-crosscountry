@@ -10,6 +10,12 @@
 <h1>Fantasy Cross Country</h1>
 <div th:unless="${username}">
     <p>You are not logged in please either <a href="/home/login">login</a> or <a href="/home/signup">Sign up</a></p>
+</div>
+<div th:if="${username}">
+    <h2>Welcome</h2>
+
+    <a href="/league/create"> Create a League </a>
+    <a href="/league/join"> Join a League </a>
 
 </div>
 </body>

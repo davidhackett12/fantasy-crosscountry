@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+
+<form method="post" th:object="${league}">
+
+    <label th:for="name">League Name</label>
+    <input type="text" th:field="*{name}" />
+    <input type="submit" value="create"/>
+
+</form>
+
+
+</body>
+</html>
