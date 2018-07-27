@@ -50,7 +50,7 @@ public class LeagueController {
     public String view(Model model, @PathVariable int leagueId){
         League league = leagueDao.findOne(leagueId);
         model.addAttribute("Title", league.getName());
-        model.addAttribute("members", league.getUsers());
+        model.addAttribute("teams", league.getTeams());
 
         return "league/index";
     }
@@ -69,7 +69,7 @@ public class LeagueController {
         user.addLeague(league);
         userDao.save(user);
 
-        return "redirect:/league/" + league.getId();
+        return "redirect:/team/create/" + league.getId();
 
     }
 
