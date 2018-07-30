@@ -2,13 +2,19 @@ package com.fantasycrosscountry.fantasycrosscountry.controller;
 
 
 import com.fantasycrosscountry.fantasycrosscountry.models.League;
+import com.fantasycrosscountry.fantasycrosscountry.models.Runner;
 import com.fantasycrosscountry.fantasycrosscountry.models.User;
+import com.fantasycrosscountry.fantasycrosscountry.models.data.CsvConverter;
 import com.fantasycrosscountry.fantasycrosscountry.models.data.LeagueDao;
+import com.fantasycrosscountry.fantasycrosscountry.models.data.RunnerDao;
 import com.fantasycrosscountry.fantasycrosscountry.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("league")
@@ -19,6 +25,9 @@ public class LeagueController {
 
     @Autowired
     LeagueDao leagueDao;
+
+    @Autowired
+    RunnerDao runnerDao;
 
     // to display and process creating a league //
     @RequestMapping(value = "create", method = RequestMethod.GET)
@@ -71,6 +80,26 @@ public class LeagueController {
 
         return "redirect:/team/create/" + league.getId();
 
+    }
+
+    @RequestMapping(value = "addRunners/{leagueId}", method = RequestMethod.GET)
+    public String addRunners(){
+        return "league/addRunners";
+    }
+
+    @RequestMapping(value = "addRunners/{leagueId}", method = RequestMethod.POST)
+    public String processAddRunners(String file, @PathVariable int leagueId){
+        CsvConverter csvConverter = new CsvConverter();
+        League league = leagueDao.findOne(leagueId);
+        HashMap<String, String> runnerList = csvConverter.convertCsvToJava(file);
+        for (Map.Entry<String, String> entry : runnerList.entrySet()){
+            Runner runner = new Runner();
+            runner.setName(entry.getKey());
+            runner.setHighSchool(entry.getValue());
+            runner.setLeague(league);
+            runnerDao.save(runner);
+        }
+        return "redirect:";
     }
 
 

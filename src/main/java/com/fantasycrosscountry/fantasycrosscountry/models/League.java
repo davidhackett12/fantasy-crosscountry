@@ -22,6 +22,10 @@ public class League {
     @JoinColumn(name = "league_id")
     private List<Team> teams;
 
+    @OneToMany
+    @JoinColumn(name = "league_id")
+    private List<Runner> runners;
+
     public League() {
     }
 
@@ -69,5 +73,11 @@ public class League {
         this.teams = teams;
     }
 
+    public List<Runner> getRunners() {
+        return runners;
+    }
 
+    public void setRunners(List<Runner> runners) {
+        this.runners = runners;
+    }
 }
