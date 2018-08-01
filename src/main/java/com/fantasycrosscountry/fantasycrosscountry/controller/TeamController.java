@@ -68,14 +68,34 @@ public class TeamController {
         return "team/addRunner";
     }
     @RequestMapping(value="addRunner/{teamId}", method = RequestMethod.POST)
-    public String processAddRunner(@PathVariable int teamId,
-                                   @ModelAttribute Runner addedRunner){
+    public String processAddRunner( Model model,
+                                    @PathVariable int teamId,
+                                   Integer droppedRunnerId,
+                                   Integer runnerId) {
+        if (droppedRunnerId != null) {
+            Runner droppedRunner = runnerDao.findOne(droppedRunnerId);
+            droppedRunner.setTeam(null);
+            runnerDao.save(droppedRunner);
+        }
+        if (runnerId != null) {
         Team team = teamDao.findOne(teamId);
-        addedRunner.setTeam(team);
-        runnerDao.save(addedRunner);
+        List<Runner> teamRoster = team.getRunners();
+        if (teamRoster.size() < 10) {
+
+            Runner runner = runnerDao.findOne(runnerId);
+            runner.setTeam(team);
+            runnerDao.save(runner);
+        } else{
+            model.addAttribute("error", "You must choose a runner to drop in order to add a runner");
+            }
+        }
         return "redirect:/team/addRunner/" + teamId;
 
     }
+
+
+
+
 
 
 

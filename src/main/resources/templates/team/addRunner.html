@@ -6,20 +6,25 @@
 </head>
 <body>
 
-<form method="post">
-    <input th:each="ownedRunner : ${teamRoster}"
-    th:name="droppedRunner"
-    th:value="${ownedRunner}"
-    th:text="${ownedRunner.name}"/>
+<p th:value="${error}" ></p>
 
-    <select th:name="addedRunner">
+<form method="post">
+    <ul >
+        <li th:each="ownedRunner : ${teamRoster}">
+            <input type="checkbox" th:name="droppedRunnerId" th:value="${ownedRunner.id}"/>
+            <label th:for="droppedRunnerId" th:text="${ownedRunner.name}"></label>
+        </li>
+    </ul>
+
+    <select th:name="runnerId">
         <option th:each="runner : ${availableRunners}"
-        th:value="${runner}"
-        th:text="${runner.name}">
+                th:unless="${runner.team}"
+                th:value="${runner.id}"
+                th:text="${runner.name}">
         </option>
     </select>
 
-    <input type="submit" value="Add Runner" />
+    <input type="submit" value="Add/Drop Runner" />
 
 
 
