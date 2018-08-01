@@ -1,22 +1,79 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Title</title>
+<head th:replace="fragments :: head">
 </head>
 <body>
 
-<nav th:replace="fragments :: navigation"></nav>
-<h1>Fantasy Cross Country</h1>
-<div th:unless="${username}">
-    <p>You are not logged in please either <a href="/home/login">login</a> or <a href="/home/signup">Sign up</a></p>
-</div>
-<div th:if="${username}">
-    <h2>Welcome</h2>
+<nav th:replace="fragments :: heading"></nav>
 
-    <a href="/league/create"> Create a League </a>
-    <a href="/league/join"> Join a League </a>
+<div class="row" style="padding-top: 50px">
+    <div class="col-md-10">
+        <h3>Welcome to Fantasy Cross Country</h3>
+    </div>
+</div>
+
+<div class="row" th:unless="${username}" style="padding-top: 100px">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3" style="max-width: 15rem;">
+            <div class="card-header">
+                 <a href="/home/login">Login</a>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">Secondary card title</h4>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3" style="max-width: 15rem;">
+            <div class="card-header">
+                <a href="/home/signup">Sign up</a>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">Secondary card title</h4>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3" style="max-width: 15rem;">
+            <div class="card-header">
+                <a href="/league/all">View Leagues</a>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">Secondary card title</h4>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" th:if="${username}" style="padding-top: 100px">
+    <div class="col-md-5">
+        <div class="card text-white bg-primary mb-3" style="max-width: 15rem;">
+            <div class="card-header">
+                <a href="/league/create"> Create a League </a>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">Secondary card title</h4>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card text-white bg-primary mb-3" style="max-width: 15rem;">
+            <div class="card-header">
+                <a href="/league/join"> Join a League </a>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">Secondary card title</h4>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+        </div>
+    </div>
 
 </div>
+
+
 </body>
 </html>
