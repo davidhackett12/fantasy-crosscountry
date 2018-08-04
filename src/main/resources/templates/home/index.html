@@ -6,73 +6,47 @@
 
 <nav th:replace="fragments :: heading"></nav>
 
-<div class="row" style="padding-top: 50px">
+
+
+
+
+
+<div class="row" th:unless="${user}" style="padding-top: 50px; padding-left:25px">
+
     <div class="col-md-10">
         <h3>Welcome to Fantasy Cross Country</h3>
+        <br/>
+        <p>You are not logged in. Please either <a href="/home/login">Login</a> or <a href="/home/signup">Sign Up</a>.</p>
     </div>
 </div>
 
-<div class="row" th:unless="${username}" style="padding-top: 100px">
-    <div class="col-md-3">
-        <div class="card text-white bg-primary mb-3" style="max-width: 15rem;">
-            <div class="card-header">
-                 <a href="/home/login">Login</a>
-            </div>
-            <div class="card-body">
-                <h4 class="card-title">Secondary card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card text-white bg-primary mb-3" style="max-width: 15rem;">
-            <div class="card-header">
-                <a href="/home/signup">Sign up</a>
-            </div>
-            <div class="card-body">
-                <h4 class="card-title">Secondary card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card text-white bg-primary mb-3" style="max-width: 15rem;">
-            <div class="card-header">
-                <a href="/league/all">View Leagues</a>
-            </div>
-            <div class="card-body">
-                <h4 class="card-title">Secondary card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
+<div class="row" th:if="${user}" style="padding-top: 50px; padding-left:25px">
+
+    <div class="col-md-10">
+        <h3 th:text="'Welcome back ' + ${user.username}"></h3>
+        <br/>
     </div>
 </div>
-
-<div class="row" th:if="${username}" style="padding-top: 100px">
-    <div class="col-md-5">
-        <div class="card text-white bg-primary mb-3" style="max-width: 15rem;">
-            <div class="card-header">
-                <a href="/league/create"> Create a League </a>
-            </div>
-            <div class="card-body">
-                <h4 class="card-title">Secondary card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
+<div class="row" th:if="${user}">
+    <div class="col-md-4">
+        <ul>
+            <a href="/team/index"><li th:each="team : ${user.teams}" th:text="${team.name}">
+            </li></a>
+        </ul>
     </div>
-    <div class="col-md-5">
-        <div class="card text-white bg-primary mb-3" style="max-width: 15rem;">
-            <div class="card-header">
-                <a href="/league/join"> Join a League </a>
-            </div>
-            <div class="card-body">
-                <h4 class="card-title">Secondary card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
+    <div class="col-md-4">
+        <h3>Options</h3>
+        <p><a href="/league/create">Create a League</a></p>
+        <p><a href="/league/join">Join a League</a></p>
     </div>
 
 </div>
+
+<!--<div class="row" th:unless="${username}" style="padding-top: 25px; padding-left:25px;">-->
+<!--<div class="col-md-10">-->
+<!--</div>-->
+<!--</div>-->
+
 
 
 </body>

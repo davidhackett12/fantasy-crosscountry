@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body>
+<nav th:replace="fragments :: team-heading"></nav>
+
+
+<p th:value="${error}" ></p>
+
+<form method="post">
+    <h4>Starting Lineup</h4>
+    <ul >
+        <li th:each="starter : ${team.starters}">
+            <input type="checkbox" th:name="removedRunnerId" th:value="${starter.id}"/>
+            <label th:for="removedRunnerId" th:text="${starter.name}"></label>
+        </li>
+    </ul>
+    <h4>Bench</h4>
+    <ul >
+        <li th:each="runner : ${team.runners}" th:unless="${runner.lineup}">
+            <input type="checkbox" th:name="addedRunnerId" th:value="${runner.id}"/>
+            <label th:for="addedRunnerId" th:text="${runner.name}"></label>
+        </li>
+    </ul>
+
+
+
+    <input type="submit" value="Set Lineup" />
+
+
+
+</form>
+
+
+</body>
+</html>

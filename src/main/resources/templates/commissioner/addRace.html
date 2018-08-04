@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body>
+<nav th:replace="fragments :: commissioner-heading"></nav>
+
+<form method="post" th:object="${race}">
+
+    <input type="text" th:field="*{name}" />
+    <label th:for="*{name}" />
+    <input type="submit" value="Add Race" />
+
+</form>
+
+
+</body>
+</html>

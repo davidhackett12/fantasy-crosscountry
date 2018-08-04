@@ -27,7 +27,8 @@ public class HomeController {
     @RequestMapping(value = "")
     public String index(Model model, @CookieValue(value = "user", defaultValue = "none") String username){
         if (!username.equals("none")){
-            model.addAttribute("username", username);
+            User user = userDao.findByUsername(username);
+            model.addAttribute("user", user);
         }
         return "home/index";
     }

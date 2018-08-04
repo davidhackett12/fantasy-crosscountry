@@ -1,9 +1,7 @@
 package com.fantasycrosscountry.fantasycrosscountry.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Runner {
@@ -20,7 +18,14 @@ public class Runner {
     private Team team;
 
     @ManyToOne
+    private Team lineup;
+
+    @ManyToOne
     private League league;
+
+    @OneToMany
+    @JoinColumn(name = "runner_id")
+    private List<Performance> performanceList;
 
     public Runner() {
     }
@@ -69,5 +74,22 @@ public class Runner {
 
     public void setLeague(League league) {
         this.league = league;
+    }
+
+    public Team getLineup() {
+        return lineup;
+    }
+
+    public void setLineup(Team lineup) {
+        this.lineup = lineup;
+    }
+
+
+    public List<Performance> getPerformanceList() {
+        return performanceList;
+    }
+
+    public void setPerformanceList(List<Performance> performanceList) {
+        this.performanceList = performanceList;
     }
 }

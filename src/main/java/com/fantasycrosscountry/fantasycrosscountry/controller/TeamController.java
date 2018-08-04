@@ -61,6 +61,7 @@ public class TeamController {
         if (!team.getUser().equals(user)){
             return "redirect:";
         }
+        model.addAttribute("team", team);
         model.addAttribute("teamRoster", team.getRunners());
         List<Runner> availableRunners = runnerDao.findByLeague(team.getLeague());
         model.addAttribute("availableRunners", availableRunners);
@@ -93,10 +94,32 @@ public class TeamController {
 
     }
 
+    @RequestMapping(value = "setLineup/{teamId}", method = RequestMethod.GET)
+    public String setLineup(Model model, @PathVariable int teamId){
+        Team team = teamDao.findOne(teamId);
+        model.addAttribute("team", team);
+        return "team/setLineup";
+    }
 
+    @RequestMapping(value = "setLineup/{teamId}", method =RequestMethod.POST)
+    public String processSetLineup(Model model,@PathVariable int teamId, Integer removedRunnerId, Integer addedRunnerId){
+        if (removedRunnerId != null) {
+            Runner removedRunner = runnerDao.findOne(removedRunnerId);
+            removedRunner.setLineup(null);
+            runnerDao.save(removedRunner);
+        }
+        if (addedRunnerId != null) {
+            Team team = teamDao.findOne(teamId);
+            List<Runner> teamLineup = team.getStarters();
+            if (teamLineup.size() < 7) {
 
-
-
-
-
+                Runner runner = runnerDao.findOne(addedRunnerId);
+                runner.setLineup(team);
+                runnerDao.save(runner);
+            } else{
+                model.addAttribute("error", "You must choose a runner to remove from your lineup first");
+            }
+        }
+        return "redirect:/team/setLineup/" + teamId;
+    }
 }

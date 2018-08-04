@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body>
+<nav th:replace="fragments :: commissioner-heading"></nav>
+
+<form method="post" th:object="${performance}">
+
+    <select th:name="runnerId">
+        <option th:each="runner : ${competingRunners}"
+                th:value="${runner.id}"
+                th:text="${runner.name}">
+        </option>
+    </select>
+
+    <input type="number" th:field="*{minutes}" />
+    <label th:for="*{minutes}">Minutes</label>
+    <input type="number" th:field="*{seconds}" />
+    <label th:for="*{seconds}">Seconds</label>
+    <input type="number" th:field="*{milliseconds}" />
+    <label th:for="*{milliseconds}">Milliseconds</label>
+
+    <input type="submit" value="Add Time"/>
+
+</form>
+
+<table>
+    <tr th:each="performance : ${performances}">
+        <td th:text="${performance.runner.name}"></td>
+        <td th:text="${performance.runner.team.name}"></td>
+        <td th:text="${performance}"></td>
+        <td th:text="${performance.place}"></td>
+    </tr>
+
+</table>
+
+<table>
+    <tr th:each="teamScore : ${teamScores}">
+        <td th:text="${teamScore.team.name}"></td>
+        <td th:text="${teamScore.score}"></td>
+    </tr>
+
+</table>
+
+
+</body>
+</html>

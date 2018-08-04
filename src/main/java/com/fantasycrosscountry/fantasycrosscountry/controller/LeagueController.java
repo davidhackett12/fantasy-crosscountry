@@ -2,12 +2,10 @@ package com.fantasycrosscountry.fantasycrosscountry.controller;
 
 
 import com.fantasycrosscountry.fantasycrosscountry.models.League;
+import com.fantasycrosscountry.fantasycrosscountry.models.Race;
 import com.fantasycrosscountry.fantasycrosscountry.models.Runner;
 import com.fantasycrosscountry.fantasycrosscountry.models.User;
-import com.fantasycrosscountry.fantasycrosscountry.models.data.CsvConverter;
-import com.fantasycrosscountry.fantasycrosscountry.models.data.LeagueDao;
-import com.fantasycrosscountry.fantasycrosscountry.models.data.RunnerDao;
-import com.fantasycrosscountry.fantasycrosscountry.models.data.UserDao;
+import com.fantasycrosscountry.fantasycrosscountry.models.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +23,9 @@ public class LeagueController {
 
     @Autowired
     LeagueDao leagueDao;
+
+    @Autowired
+    RaceDao raceDao;
 
     @Autowired
     RunnerDao runnerDao;
@@ -56,7 +57,7 @@ public class LeagueController {
 
     // just viewing a league //
     @RequestMapping(value = "{leagueId}")
-    public String view(Model model, @PathVariable int leagueId){
+    public String index(Model model, @PathVariable int leagueId){
         League league = leagueDao.findOne(leagueId);
         model.addAttribute("Title", league.getName());
         model.addAttribute("teams", league.getTeams());
@@ -100,6 +101,15 @@ public class LeagueController {
             runnerDao.save(runner);
         }
         return "redirect:";
+    }
+
+
+
+    @RequestMapping(value = "results/{raceId}")
+    public String viewResults(Model model, @PathVariable int raceId){
+        Race race = raceDao.findOne(raceId);
+        model.addAttribute("race", race);
+        return "league/results";
     }
 
 

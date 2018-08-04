@@ -23,6 +23,16 @@ public class Team {
     @JoinColumn(name = "team_id")
     private List<Runner> runners;
 
+    @OneToMany
+    @JoinColumn(name = "lineup_id")
+    private List<Runner> starters;
+
+    @OneToMany
+    @JoinColumn(name = "team_id")
+    private List<TeamScore> teamScores;
+
+    private int overallScore;
+
     public Team() {
     }
 
@@ -69,4 +79,34 @@ public class Team {
     public void setRunners(List<Runner> runners) {
         this.runners = runners;
     }
+
+    public List<Runner> getStarters() {
+        return starters;
+    }
+
+    public void setStarters(List<Runner> starters) {
+        this.starters = starters;
+    }
+
+    public List<TeamScore> getTeamScores() {
+        return teamScores;
+    }
+
+    public void setTeamScores(List<TeamScore> teamScores) {
+        this.teamScores = teamScores;
+    }
+
+    public int getOverallScore() {
+        return overallScore;
+    }
+
+    public void setOverallScore() {
+        int score = 0;
+        for (TeamScore teamScore : teamScores){
+            score =+ teamScore.getScore();
+        }
+        this.overallScore = score;
+    }
+
+
 }
