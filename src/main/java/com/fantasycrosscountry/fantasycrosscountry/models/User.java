@@ -25,7 +25,7 @@ public class User {
     @Size(min = 5, max = 20)
     private String password;
 
-    @ManyToMany
+    @OneToMany
     @JoinColumn(name= "commissioner_id")
     private List<League> commissionedLeagues;
 

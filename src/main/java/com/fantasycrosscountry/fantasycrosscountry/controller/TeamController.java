@@ -122,4 +122,11 @@ public class TeamController {
         }
         return "redirect:/team/setLineup/" + teamId;
     }
+
+    @RequestMapping(value = "{teamId}")
+    public String index(Model model,@PathVariable int teamId){
+        Team team = teamDao.findOne(teamId);
+        model.addAttribute("team", team);
+        return "team/index";
+    }
 }

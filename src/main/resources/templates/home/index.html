@@ -29,8 +29,9 @@
 </div>
 <div class="row" th:if="${user}">
     <div class="col-md-4">
+        <h4>Your Teams</h4>
         <ul>
-            <a href="/team/index"><li th:each="team : ${user.teams}" th:text="${team.name}">
+            <a th:each="team : ${user.teams}" th:href="@{/team/{id}(id=${team.id})}"><li  th:text="${team.name}">
             </li></a>
         </ul>
     </div>
@@ -41,11 +42,19 @@
     </div>
 
 </div>
+<div class="row" th:if="${user}">
+    <div class="col-md-4">
+        <h4>Your Leagues</h4>
+        <ul>
+            <a th:each="league : ${user.commissionedLeagues}" th:href="@{/commissioner/{id}(id=${league.id})}">
+                <li th:text="${league.name}"></li>
+            </a>
+        </ul>
+    </div>
 
-<!--<div class="row" th:unless="${username}" style="padding-top: 25px; padding-left:25px;">-->
-<!--<div class="col-md-10">-->
-<!--</div>-->
-<!--</div>-->
+</div>
+
+
 
 
 

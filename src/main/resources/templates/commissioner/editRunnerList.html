@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+<form method="post" th:action="@{/commissioner/delete}">
+
+    <select th:name="deletedRunnerId">
+        <option th:each="runnerToDelete : ${runners}"
+                th:value="${runnerToDelete.id}"
+                th:text="${runnerToDelete.name}">
+        </option>
+    </select>
+
+    <input type="submit" value="Delete Runner" />
+
+</form>
+
+<form method="post" th:object="${runner}" th:action="@{/commissioner/createRunner}">
+
+    <label th:for="name">Name</label>
+    <input type="text" th:field="*{name}" />
+    <label th:for="highSchool">High School</label>
+    <input type="text" th:field="*{highSchool}"/>
+    <input type="hidden" th:name="leagueId" th:value="${league.id}"/>
+
+    <input type="submit" value="Create New Runner"/>
+
+</form>
+
+
+</body>
+</html>

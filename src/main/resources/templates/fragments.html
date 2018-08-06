@@ -50,10 +50,13 @@
                 <a class="nav-link" href="/home">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href= "/team/addRunner">Add Runner</a>
+                <a class="nav-link" th:href= "@{/team/addRunner/{id}(id=${team.id})}">Add Runner</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href= "/team/setLineup">Set Lineup</a>
+                <a class="nav-link" th:href= "@{/team/setLineup/{id}(id=${team.id})}">Set Lineup</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/league/{id}(id=${team.league.id})}">View Standings</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href= "/home/logout">Log Out</a>

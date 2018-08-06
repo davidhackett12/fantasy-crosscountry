@@ -1,10 +1,7 @@
 package com.fantasycrosscountry.fantasycrosscountry.controller;
 
 
-import com.fantasycrosscountry.fantasycrosscountry.models.League;
-import com.fantasycrosscountry.fantasycrosscountry.models.Race;
-import com.fantasycrosscountry.fantasycrosscountry.models.Runner;
-import com.fantasycrosscountry.fantasycrosscountry.models.User;
+import com.fantasycrosscountry.fantasycrosscountry.models.*;
 import com.fantasycrosscountry.fantasycrosscountry.models.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +26,9 @@ public class LeagueController {
 
     @Autowired
     RunnerDao runnerDao;
+
+    @Autowired
+    TeamDao teamDao;
 
     // to display and process creating a league //
     @RequestMapping(value = "create", method = RequestMethod.GET)
@@ -57,10 +57,32 @@ public class LeagueController {
 
     // just viewing a league //
     @RequestMapping(value = "{leagueId}")
-    public String index(Model model, @PathVariable int leagueId){
+    public String index(Model model, @PathVariable int leagueId,
+                        @CookieValue(value = "user", defaultValue = "none") String username){
+        if (username.equals("none")){
+            return "redirect:/home/login";
+        }
+
+        User user = userDao.findByUsername(username);
         League league = leagueDao.findOne(leagueId);
+
+        boolean hasTeam = false;
+        for (Team team : user.getTeams()){
+            boolean inLeague = false;
+            if (team.getLeague().equals(league)){
+                inLeague = true;
+            }
+            hasTeam = inLeague;
+        }
+
+        if (!hasTeam){
+            return "redirect:/team/create/"+leagueId;
+        }
+
+
         model.addAttribute("Title", league.getName());
         model.addAttribute("teams", league.getTeams());
+        model.addAttribute("league", league);
 
         return "league/index";
     }

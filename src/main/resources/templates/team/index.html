@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body>
+<nav th:replace="fragments :: team-heading"></nav>
+
+<ul>
+    <li th:each="runner : ${team.runners}" th:text="${runner.name}+ ' ' + ${runner.highSchool}"></li>
+</ul>
+
+
+</body>
+</html>

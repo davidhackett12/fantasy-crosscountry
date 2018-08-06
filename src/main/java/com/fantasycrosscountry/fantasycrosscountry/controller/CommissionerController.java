@@ -72,7 +72,8 @@ public class CommissionerController {
     @RequestMapping(value = "editRunnerList/{leagueId}", method = RequestMethod.GET)
     public String editRunnersList(Model model, @PathVariable int leagueId){
         League league = leagueDao.findOne(leagueId);
-        model.addAttribute("runner", league.getRunners());
+        model.addAttribute("runners", league.getRunners());
+        model.addAttribute("league", league);
         model.addAttribute(new Runner());
         return "commissioner/editRunnerList";
     }
@@ -85,10 +86,13 @@ public class CommissionerController {
         return "redirect:/commissioner/editRunnerList/"+ leagueId;
     }
 
-//    @RequestMapping(value = "createRunner/{leagueId}", method = RequestMethod.POST)
-//    public String createRunner(@ModelAttribute Runner runner, @PathVariable int leagueId){
-//        lea
-//    }
+    @RequestMapping(value = "createRunner", method = RequestMethod.POST)
+    public String createRunner(@ModelAttribute Runner runner, int leagueId){
+        League league = leagueDao.findOne(leagueId);
+        runner.setLeague(league);
+        runnerDao.save(runner);
+        return "redirect:/commissioner/editRunnerList/" + leagueId;
+    }
 
     @RequestMapping(value = "addRace/{leagueId}", method = RequestMethod.GET)
     public String addRace(Model model, @PathVariable int leagueId){
