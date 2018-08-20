@@ -78,7 +78,7 @@ public class CommissionerController {
             runner.setLeague(league);
             runnerDao.save(runner);
         }
-        return "redirect:";
+        return "redirect:/commissioner/editRunnerList/" + leagueId;
     }
 
     @RequestMapping(value = "editRunnerList/{leagueId}", method = RequestMethod.GET)
