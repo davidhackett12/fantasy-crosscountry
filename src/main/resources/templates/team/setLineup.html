@@ -5,32 +5,31 @@
 <body>
 <nav th:replace="fragments :: team-heading"></nav>
 
+<div class="row">
+    <div class="col-md-4">
+        <p th:value="${error}" ></p>
 
-<p th:value="${error}" ></p>
-
-<form method="post">
-    <h4>Starting Lineup</h4>
-    <ul >
-        <li th:each="starter : ${team.starters}">
-            <input type="checkbox" th:name="removedRunnerId" th:value="${starter.id}"/>
-            <label th:for="removedRunnerId" th:text="${starter.name}"></label>
-        </li>
-    </ul>
-    <h4>Bench</h4>
-    <ul >
-        <li th:each="runner : ${team.runners}" th:unless="${runner.lineup}">
-            <input type="checkbox" th:name="addedRunnerId" th:value="${runner.id}"/>
-            <label th:for="addedRunnerId" th:text="${runner.name}"></label>
-        </li>
-    </ul>
-
-
-
-    <input type="submit" value="Set Lineup" />
-
-
-
-</form>
+        <form method="post">
+            <fieldset>
+                <fieldset class="form-group">
+                    <legend>Starting Lineup</legend>
+                    <div th:each="starter : ${team.starters}" class="form-check">
+                        <input type="radio" class="form-check-input" th:name="removedRunnerId" th:value="${starter.id}"/>
+                        <label class="form-check-label" th:for="removedRunnerId" th:text="${starter.name}"></label>
+                    </div>
+                </fieldset>
+                <fieldset class="form-group">
+                    <legend>Bench</legend>
+                    <div th:each="runner : ${team.runners}" th:unless="${runner.lineup}" class="form-check">
+                        <input type="radio" class="form-check-input" th:name="addedRunnerId" th:value="${runner.id}"/>
+                        <label class="form-check-label" th:for="addedRunnerId" th:text="${runner.name}"></label>
+                    </div>
+                </fieldset>
+                <input type="submit" value="Set Lineup" />
+            </fieldset>
+        </form>
+    </div>
+</div>
 
 
 </body>

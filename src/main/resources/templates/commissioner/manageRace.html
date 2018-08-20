@@ -26,9 +26,9 @@
 </form>
 
 <table>
-    <tr th:each="performance : ${performances}">
+    <tr th:each="performance : ${race.performances}">
         <td th:text="${performance.runner.name}"></td>
-        <td th:text="${performance.runner.team.name}"></td>
+        <td th:text="${performance.team.name}"></td>
         <td th:text="${performance}"></td>
         <td th:text="${performance.place}"></td>
     </tr>
@@ -36,7 +36,7 @@
 </table>
 
 <table>
-    <tr th:each="teamScore : ${teamScores}">
+    <tr th:each="teamScore : ${race.teamScores}">
         <td th:text="${teamScore.team.name}"></td>
         <td th:text="${teamScore.score}"></td>
     </tr>

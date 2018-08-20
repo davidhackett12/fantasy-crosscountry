@@ -23,7 +23,7 @@
 <div class="row" th:if="${user}" style="padding-top: 50px; padding-left:25px">
 
     <div class="col-md-10">
-        <h3 th:text="'Welcome back ' + ${user.username}"></h3>
+        <h3 th:text="'Welcome ' + ${user.username}"></h3>
         <br/>
     </div>
 </div>
@@ -45,6 +45,16 @@
 <div class="row" th:if="${user}">
     <div class="col-md-4">
         <h4>Your Leagues</h4>
+        <ul>
+            <a th:each="league : ${user.leagues}" th:href="@{/league/{id}(id=${league.id})}">
+                <li th:text="${league.name}"></li>
+            </a>
+        </ul>
+    </div>
+</div>
+<div class="row" th:if="${user}">
+    <div class="col-md-4">
+        <h4>Manage Leagues You Own</h4>
         <ul>
             <a th:each="league : ${user.commissionedLeagues}" th:href="@{/commissioner/{id}(id=${league.id})}">
                 <li th:text="${league.name}"></li>

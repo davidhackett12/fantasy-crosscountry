@@ -29,6 +29,10 @@ public class Team {
 
     @OneToMany
     @JoinColumn(name = "team_id")
+    private List<Performance> performances;
+
+    @OneToMany
+    @JoinColumn(name = "team_id")
     private List<TeamScore> teamScores;
 
     private int overallScore;
@@ -108,5 +112,11 @@ public class Team {
         this.overallScore = score;
     }
 
+    public List<Performance> getPerformances() {
+        return performances;
+    }
 
+    public void setPerformances(List<Performance> performances) {
+        this.performances = performances;
+    }
 }

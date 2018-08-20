@@ -6,30 +6,36 @@
 <nav th:replace="fragments :: team-heading"></nav>
 
 
-<p th:value="${error}" ></p>
+<div class="row">
 
-<form method="post">
-    <ul >
-        <li th:each="ownedRunner : ${teamRoster}">
-            <input type="checkbox" th:name="droppedRunnerId" th:value="${ownedRunner.id}"/>
-            <label th:for="droppedRunnerId" th:text="${ownedRunner.name}"></label>
-        </li>
-    </ul>
+    <div class="col-md-4">
+        <p th:value="${error}" ></p>
 
-    <select th:name="runnerId">
-        <option th:each="runner : ${availableRunners}"
-                th:unless="${runner.team}"
-                th:value="${runner.id}"
-                th:text="${runner.name}">
-        </option>
-    </select>
+        <form method="post">
 
-    <input type="submit" value="Add/Drop Runner" />
-
-
-
-</form>
-
-
+            <fieldset>
+                <fieldset class="form-group">
+                    <legend>Select a Runner to drop</legend>
+                        <div th:each="ownedRunner : ${teamRoster}" class="form-check">
+                            <input class="form-check-input" type="radio" th:name="droppedRunnerId" th:value="${ownedRunner.id}" />
+                            <label th:for="droppedRunnerId" class="form-check-label" th:text="${ownedRunner.name}">
+                            </label>
+                        </div>
+                </fieldset>
+                <div class="form-group">
+                    <legend>Select a Runner to Add</legend>
+                    <select class="form-control" th:name="runnerId">
+                        <option th:each="runner : ${availableRunners}"
+                                th:unless="${runner.team}"
+                                th:value="${runner.id}"
+                                th:text="${runner.name}">
+                        </option>
+                    </select>
+                </div>
+                <input type="submit" value="Add/Drop Runner" />
+            </fieldset>
+        </form>
+    </div>
+</div>
 </body>
 </html>

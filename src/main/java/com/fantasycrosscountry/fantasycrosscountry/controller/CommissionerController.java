@@ -7,10 +7,7 @@ import com.fantasycrosscountry.fantasycrosscountry.models.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,14 +40,18 @@ public class CommissionerController {
     TeamScoreDao teamScoreDao;
 
     @RequestMapping(value = "{leagueId}")
-    public String index(Model model, @PathVariable int leagueId){
+    public String index(Model model, @PathVariable int leagueId,
+                        @CookieValue(value = "user", defaultValue = "none") String username){
         League league = leagueDao.findOne(leagueId);
         model.addAttribute("league", league);
         return "commissioner/index";
     }
 
     @RequestMapping(value = "addRunners/{leagueId}", method = RequestMethod.GET)
-    public String addRunners(){
+    public String addRunners(Model model, @PathVariable int leagueId,
+                             @CookieValue(value = "user", defaultValue = "none") String username){
+        League league = leagueDao.findOne(leagueId);
+        model.addAttribute("league", league);
         return "commissioner/addRunners";
     }
 
@@ -70,7 +71,8 @@ public class CommissionerController {
     }
 
     @RequestMapping(value = "editRunnerList/{leagueId}", method = RequestMethod.GET)
-    public String editRunnersList(Model model, @PathVariable int leagueId){
+    public String editRunnersList(Model model, @PathVariable int leagueId,
+                                  @CookieValue(value = "user", defaultValue = "none") String username){
         League league = leagueDao.findOne(leagueId);
         model.addAttribute("runners", league.getRunners());
         model.addAttribute("league", league);
@@ -95,7 +97,8 @@ public class CommissionerController {
     }
 
     @RequestMapping(value = "addRace/{leagueId}", method = RequestMethod.GET)
-    public String addRace(Model model, @PathVariable int leagueId){
+    public String addRace(Model model, @PathVariable int leagueId,
+                          @CookieValue(value = "user", defaultValue = "none") String username){
         League league = leagueDao.findOne(leagueId);
         model.addAttribute("league", league);
         model.addAttribute(new Race());
@@ -114,13 +117,14 @@ public class CommissionerController {
             teamScore.setTeam(team);
             teamScoreDao.save(teamScore);
         }
-        return "redirect:/commissioner/manageRace/"+league.getId()+"/"+race.getId();
+        return "redirect:/commissioner/manageRace/"+race.getId();
     }
 
-    @RequestMapping(value = "manageRace/{leagueId}/{raceId}", method = RequestMethod.GET)
-    public String manageRace(Model model, @PathVariable int leagueId, @PathVariable int raceId){
-        League league = leagueDao.findOne(leagueId);
+    @RequestMapping(value = "manageRace/{raceId}", method = RequestMethod.GET)
+    public String manageRace(Model model, @PathVariable int raceId,
+                             @CookieValue(value = "user", defaultValue = "none") String username){
         Race race = raceDao.findOne(raceId);
+        League league = race.getLeague();
         List<Runner> competingRunners = new ArrayList<>();
         for (Team team : league.getTeams()){
             for (Runner runner : team.getStarters()){
@@ -128,21 +132,23 @@ public class CommissionerController {
             }
         }
         model.addAttribute("competingRunners", competingRunners);
-        model.addAttribute("performances", race.getPerformances());
-        model.addAttribute("teamScores", race.getTeamScores());
+        model.addAttribute("race" , race);
+        model.addAttribute("league", league);
         model.addAttribute(new Performance());
         return "commissioner/manageRace";
     }
-    @RequestMapping(value = "manageRace/{leagueId}/{raceId}", method = RequestMethod.POST)
-    public String processManageRace(@PathVariable int leagueId, @PathVariable int raceId,
+    @RequestMapping(value = "manageRace/{raceId}", method = RequestMethod.POST)
+    public String processManageRace(@PathVariable int raceId,
                                     int runnerId, @ModelAttribute Performance performance){
 
         Runner runner = runnerDao.findOne(runnerId);
         Race race = raceDao.findOne(raceId);
-        League league = leagueDao.findOne(leagueId);
+        Team team = runner.getTeam();
+        League league = race.getLeague();
         performance.setTime();
         performance.setRunner(runner);
         performance.setRace(race);
+        performance.setTeam(team);
         performanceDao.save(performance);
         PerformanceComparator performanceComparator = new PerformanceComparator();
         race.getPerformances().sort(performanceComparator);
@@ -164,7 +170,7 @@ public class CommissionerController {
             teamScore.setScore(currentScore);
             teamScoreDao.save(teamScore);
         }
-        return "redirect:/commissioner/manageRace/"+league.getId()+"/"+race.getId();
+        return "redirect:/commissioner/manageRace/"+race.getId();
     }
 
 }

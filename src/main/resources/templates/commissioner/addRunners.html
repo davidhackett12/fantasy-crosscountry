@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head>
-    <meta charset="UTF-8"/>
-    <title></title>
+<head th:replace="fragments :: head">
 </head>
 <body>
+<nav th:replace="fragments :: commissioner-heading"></nav>
 
 <form method="post">
     <input type="text" th:name="file" />
     <input type="submit" />
 
+<!--<div class="form-group">-->
+    <!--<label for="runnerlist">File input</label>-->
+    <!--<input type="file" class="form-control-file" id="runnerlist" th:name="file" aria-describedby="fileHelp"/>-->
+    <!--<small id="fileHelp" class="form-text text-muted">Please upload a CSV file with two columns; one for the runner's name and one for the high school. Do not include a header row</small>-->
+<!--</div>-->
+    <!--<input type="submit"/>-->
 </form>
-
 
 </body>
 </html>

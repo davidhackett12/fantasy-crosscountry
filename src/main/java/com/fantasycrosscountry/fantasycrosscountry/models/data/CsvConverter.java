@@ -3,10 +3,7 @@ package com.fantasycrosscountry.fantasycrosscountry.models.data;
 import com.fantasycrosscountry.fantasycrosscountry.models.Runner;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

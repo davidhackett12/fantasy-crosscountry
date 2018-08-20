@@ -20,6 +20,9 @@ public class Performance {
     @ManyToOne
     private Runner runner;
 
+    @ManyToOne
+    private Team team;
+
     private String minutes;
 
     private String seconds;
@@ -112,6 +115,14 @@ public class Performance {
 
     public void setPlace(int place) {
         this.place = place;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     @Override

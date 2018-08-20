@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -88,8 +90,14 @@ public class LeagueController {
     }
 
     // joining a league //
+    @RequestMapping(value = "join")
+    public String join(Model model){
+        model.addAttribute("leagues", leagueDao.findAll());
+        return "league/join";
+    }
+
     @RequestMapping(value = "join/{leagueId}")
-    public String join(@PathVariable int leagueId,
+    public String joinLeague(@PathVariable int leagueId,
                        @CookieValue(value = "user", defaultValue = "none") String username){
 
         if (username.equals("none")){
@@ -111,10 +119,11 @@ public class LeagueController {
     }
 
     @RequestMapping(value = "addRunners/{leagueId}", method = RequestMethod.POST)
-    public String processAddRunners(String file, @PathVariable int leagueId){
+    public String processAddRunners(File file, @PathVariable int leagueId){
         CsvConverter csvConverter = new CsvConverter();
         League league = leagueDao.findOne(leagueId);
-        HashMap<String, String> runnerList = csvConverter.convertCsvToJava(file);
+        String fileStr = file.toString();
+        HashMap<String, String> runnerList = csvConverter.convertCsvToJava(fileStr);
         for (Map.Entry<String, String> entry : runnerList.entrySet()){
             Runner runner = new Runner();
             runner.setName(entry.getKey());
@@ -122,7 +131,7 @@ public class LeagueController {
             runner.setLeague(league);
             runnerDao.save(runner);
         }
-        return "redirect:";
+        return "redirect:/commissioner/"+leagueId;
     }
 
 

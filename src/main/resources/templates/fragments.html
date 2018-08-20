@@ -23,14 +23,31 @@
             <li class="nav-item">
                 <a class="nav-link" href="/home">Home</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" th:if= "${user}" href="/home/logout">Log Out</a>
-            </li>
+
             <li class="nav-item">
                 <a class="nav-link" th:unless= "${user}" href="/home/login">Login</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:unless= "${user}" href= "/home/signup">Sign Up</a>
+            </li>
+            <li class="nav-item dropdown" th:if="${user}">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Teams
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a th:each="team : ${user.teams}" class="dropdown-item" th:text="${team.name}" th:href="@{/team/{id}(id=${team.id})}"></a>
+                </div>
+            <li class="nav-item dropdown" th:if="${user}">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Leagues
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a th:each="league : ${user.leagues}" class="dropdown-item" th:text="${league.name}" th:href="@{/league/{id}(id=${league.id})}"></a>
+                </div>
+            </li>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:if= "${user}" href="/home/logout">Log Out</a>
             </li>
         </ul>
     </div>
@@ -79,10 +96,7 @@
                 <a class="nav-link" href="/home">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href= "/commissioner/addRace">Add Race</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href= "/commissioner/manageRace">Manage Race</a>
+                <a class="nav-link" th:href= "@{/commissioner/{id}(id=${league.id})}">Manage League</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href= "/home/logout">Log Out</a>
