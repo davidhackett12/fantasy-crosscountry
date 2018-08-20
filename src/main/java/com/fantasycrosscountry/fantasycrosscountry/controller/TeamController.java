@@ -33,7 +33,13 @@ public class TeamController {
     RunnerDao runnerDao;
 
     @RequestMapping(value = "create/{leagueId}", method = RequestMethod.GET)
-    public String createTeam(Model model){
+    public String createTeam(Model model, @CookieValue(value = "user", defaultValue = "none") String username){
+        if (username.equals("none")){
+            return "redirect:/home/login";
+        }
+
+        User user = userDao.findByUsername(username);
+        model.addAttribute("user", user);
         model.addAttribute(new Team());
         return "team/create";
     }
@@ -56,7 +62,12 @@ public class TeamController {
     @RequestMapping(value = "addRunner/{teamId}", method = RequestMethod.GET)
     public String addRunner(Model model, @PathVariable int teamId,
                             @CookieValue(value = "user", defaultValue = "none") String username){
+        if (username.equals("none")){
+            return "redirect:/home/login";
+        }
+
         User user = userDao.findByUsername(username);
+        model.addAttribute("user", user);
         Team team = teamDao.findOne(teamId);
         if (!team.getUser().equals(user)){
             return "redirect:";
@@ -95,7 +106,14 @@ public class TeamController {
     }
 
     @RequestMapping(value = "setLineup/{teamId}", method = RequestMethod.GET)
-    public String setLineup(Model model, @PathVariable int teamId){
+    public String setLineup(Model model, @PathVariable int teamId,
+                            @CookieValue(value = "user", defaultValue = "none") String username){
+        if (username.equals("none")){
+            return "redirect:/home/login";
+        }
+
+        User user = userDao.findByUsername(username);
+        model.addAttribute("user", user);
         Team team = teamDao.findOne(teamId);
         model.addAttribute("team", team);
         return "team/setLineup";
@@ -124,7 +142,14 @@ public class TeamController {
     }
 
     @RequestMapping(value = "{teamId}")
-    public String index(Model model,@PathVariable int teamId){
+    public String index(Model model,@PathVariable int teamId,
+                        @CookieValue(value = "user", defaultValue = "none") String username){
+        if (username.equals("none")){
+            return "redirect:/home/login";
+        }
+
+        User user = userDao.findByUsername(username);
+        model.addAttribute("user", user);
         Team team = teamDao.findOne(teamId);
         model.addAttribute("team", team);
         return "team/index";

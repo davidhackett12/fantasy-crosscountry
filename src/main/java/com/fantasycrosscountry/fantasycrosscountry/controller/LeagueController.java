@@ -34,7 +34,14 @@ public class LeagueController {
 
     // to display and process creating a league //
     @RequestMapping(value = "create", method = RequestMethod.GET)
-    public String createLeague(Model model){
+    public String createLeague(Model model,
+                               @CookieValue(value = "user", defaultValue = "none") String username){
+        if (username.equals("none")){
+            return "redirect:/home/login";
+        }
+
+        User user = userDao.findByUsername(username);
+        model.addAttribute("user", user);
         model.addAttribute(new League());
         return "league/create";
     }
@@ -47,6 +54,7 @@ public class LeagueController {
         }
 
         User user = userDao.findByUsername(username);
+        model.addAttribute("user", user);
         league.setCommissioner(user);
         user.addLeague(league);
         leagueDao.save(league);
@@ -66,6 +74,7 @@ public class LeagueController {
         }
 
         User user = userDao.findByUsername(username);
+        model.addAttribute("user", user);
         League league = leagueDao.findOne(leagueId);
 
         boolean hasTeam = false;
@@ -91,13 +100,20 @@ public class LeagueController {
 
     // joining a league //
     @RequestMapping(value = "join")
-    public String join(Model model){
+    public String join(Model model,
+                       @CookieValue(value = "user", defaultValue = "none") String username){
+        if (username.equals("none")){
+            return "redirect:/home/login";
+        }
+
+        User user = userDao.findByUsername(username);
+        model.addAttribute("user", user);
         model.addAttribute("leagues", leagueDao.findAll());
         return "league/join";
     }
 
     @RequestMapping(value = "join/{leagueId}")
-    public String joinLeague(@PathVariable int leagueId,
+    public String joinLeague(Model model, @PathVariable int leagueId,
                        @CookieValue(value = "user", defaultValue = "none") String username){
 
         if (username.equals("none")){
@@ -105,6 +121,7 @@ public class LeagueController {
         }
 
         User user = userDao.findByUsername(username);
+        model.addAttribute("user", user);
         League league = leagueDao.findOne(leagueId);
         user.addLeague(league);
         userDao.save(user);
@@ -114,7 +131,13 @@ public class LeagueController {
     }
 
     @RequestMapping(value = "addRunners/{leagueId}", method = RequestMethod.GET)
-    public String addRunners(){
+    public String addRunners(Model model, @CookieValue(value = "user", defaultValue = "none") String username){
+        if (username.equals("none")){
+            return "redirect:/home/login";
+        }
+
+        User user = userDao.findByUsername(username);
+        model.addAttribute("user", user);
         return "league/addRunners";
     }
 
@@ -137,7 +160,14 @@ public class LeagueController {
 
 
     @RequestMapping(value = "results/{raceId}")
-    public String viewResults(Model model, @PathVariable int raceId){
+    public String viewResults(Model model, @PathVariable int raceId,
+                              @CookieValue(value = "user", defaultValue = "none") String username){
+        if (username.equals("none")){
+            return "redirect:/home/login";
+        }
+
+        User user = userDao.findByUsername(username);
+        model.addAttribute("user", user);
         Race race = raceDao.findOne(raceId);
         model.addAttribute("race", race);
         return "league/results";

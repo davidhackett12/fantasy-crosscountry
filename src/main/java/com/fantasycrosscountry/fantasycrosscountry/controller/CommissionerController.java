@@ -42,6 +42,12 @@ public class CommissionerController {
     @RequestMapping(value = "{leagueId}")
     public String index(Model model, @PathVariable int leagueId,
                         @CookieValue(value = "user", defaultValue = "none") String username){
+        if (username.equals("none")){
+            return "redirect:/home/login";
+        }
+
+        User user = userDao.findByUsername(username);
+        model.addAttribute("user", user);
         League league = leagueDao.findOne(leagueId);
         model.addAttribute("league", league);
         return "commissioner/index";
@@ -50,6 +56,11 @@ public class CommissionerController {
     @RequestMapping(value = "addRunners/{leagueId}", method = RequestMethod.GET)
     public String addRunners(Model model, @PathVariable int leagueId,
                              @CookieValue(value = "user", defaultValue = "none") String username){
+        if (username.equals("none")){
+            return "redirect:/home/login";
+        }
+        User user = userDao.findByUsername(username);
+        model.addAttribute("user", user);
         League league = leagueDao.findOne(leagueId);
         model.addAttribute("league", league);
         return "commissioner/addRunners";
@@ -73,6 +84,12 @@ public class CommissionerController {
     @RequestMapping(value = "editRunnerList/{leagueId}", method = RequestMethod.GET)
     public String editRunnersList(Model model, @PathVariable int leagueId,
                                   @CookieValue(value = "user", defaultValue = "none") String username){
+
+        if (username.equals("none")){
+            return "redirect:/home/login";
+        }
+        User user = userDao.findByUsername(username);
+        model.addAttribute("user", user);
         League league = leagueDao.findOne(leagueId);
         model.addAttribute("runners", league.getRunners());
         model.addAttribute("league", league);
@@ -99,6 +116,12 @@ public class CommissionerController {
     @RequestMapping(value = "addRace/{leagueId}", method = RequestMethod.GET)
     public String addRace(Model model, @PathVariable int leagueId,
                           @CookieValue(value = "user", defaultValue = "none") String username){
+
+        if (username.equals("none")){
+            return "redirect:/home/login";
+        }
+        User user = userDao.findByUsername(username);
+        model.addAttribute("user", user);
         League league = leagueDao.findOne(leagueId);
         model.addAttribute("league", league);
         model.addAttribute(new Race());
@@ -123,6 +146,12 @@ public class CommissionerController {
     @RequestMapping(value = "manageRace/{raceId}", method = RequestMethod.GET)
     public String manageRace(Model model, @PathVariable int raceId,
                              @CookieValue(value = "user", defaultValue = "none") String username){
+
+        if (username.equals("none")){
+            return "redirect:/home/login";
+        }
+        User user = userDao.findByUsername(username);
+        model.addAttribute("user", user);
         Race race = raceDao.findOne(raceId);
         League league = race.getLeague();
         List<Runner> competingRunners = new ArrayList<>();
