@@ -9,6 +9,7 @@
 
 <h1 th:text="${Title}"></h1>
 
+<h3>Standings</h3>
 <table>
     <tr th:each="overallScore : ${overallScores}">
         <td th:text="${overallScore.place}"></td>
@@ -19,6 +20,10 @@
 
 </table>
 
+<h3>Week By Week Results</h3>
+<ul th:each="race : ${league.races}">
+    <li><a th:href="@{/league/results/{id}(id=${race.id})}" th:text="${race.name}"></a></li>
+</ul>
 
 </body>
 </html>

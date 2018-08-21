@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body>
+
+<nav th:replace="fragments :: heading"></nav>
+
+<table>
+    <tr th:each="performance : ${race.performances}">
+        <td th:text="${performance.runner.name}"></td>
+        <td th:text="${performance.team.name}"></td>
+        <td th:text="${performance}"></td>
+        <td th:text="${performance.place}"></td>
+    </tr>
+
+</table>
+
+<table>
+    <tr th:each="teamScore : ${race.teamScores}">
+        <td th:text="${teamScore.team.name}"></td>
+        <td th:text="${teamScore.score}"></td>
+    </tr>
+
+</table>
+
+</body>
+</html>

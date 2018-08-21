@@ -3,11 +3,16 @@ package com.fantasycrosscountry.fantasycrosscountry.models;
 import javax.persistence.*;
 
 @Entity
-public class OverallScore extends Score {
+public class OverallScore {
 
     @Id
     @GeneratedValue
     private int id;
+
+    private int score;
+
+    private int place;
+
 
     @OneToOne
     @JoinColumn(name = "team_id")
@@ -47,5 +52,21 @@ public class OverallScore extends Score {
 
     public void setLeague(League league) {
         this.league = league;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getPlace() {
+        return place;
+    }
+
+    public void setPlace(int place) {
+        this.place = place;
     }
 }

@@ -2,6 +2,7 @@ package com.fantasycrosscountry.fantasycrosscountry.controller;
 
 
 import com.fantasycrosscountry.fantasycrosscountry.models.*;
+import com.fantasycrosscountry.fantasycrosscountry.models.comparators.OverallScoreComparator;
 import com.fantasycrosscountry.fantasycrosscountry.models.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -89,8 +90,8 @@ public class LeagueController {
         if (!hasTeam){
             return "redirect:/team/create/"+leagueId;
         }
-
-
+        OverallScoreComparator overallScoreComparator = new OverallScoreComparator();
+        league.getOverallScores().sort(overallScoreComparator);
         model.addAttribute("Title", league.getName());
         model.addAttribute("overallScores", league.getOverallScores());
         model.addAttribute("league", league);

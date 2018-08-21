@@ -2,8 +2,8 @@ package com.fantasycrosscountry.fantasycrosscountry.controller;
 
 
 import com.fantasycrosscountry.fantasycrosscountry.models.*;
+import com.fantasycrosscountry.fantasycrosscountry.models.comparators.OverallScoreComparator;
 import com.fantasycrosscountry.fantasycrosscountry.models.comparators.PerformanceComparator;
-import com.fantasycrosscountry.fantasycrosscountry.models.comparators.ScoreComparator;
 import com.fantasycrosscountry.fantasycrosscountry.models.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +39,9 @@ public class CommissionerController {
 
     @Autowired
     TeamScoreDao teamScoreDao;
+
+    @Autowired
+    OverallScoreDao overallScoreDao;
 
     @RequestMapping(value = "{leagueId}")
     public String index(Model model, @PathVariable int leagueId,
@@ -203,19 +206,21 @@ public class CommissionerController {
         return "redirect:/commissioner/manageRace/"+race.getId();
     }
 
-    @RequestMapping(value = "finalizeRace/{raceId}", method = RequestMethod.POST)
+    @RequestMapping(value = "finalizeRace/{raceId}", method = RequestMethod.GET)
     public String finalizeRace(@PathVariable int raceId){
         Race race = raceDao.findOne(raceId);
         League league = race.getLeague();
 
         for (OverallScore overallScore : league.getOverallScores()){
             overallScore.updateScore();
+            overallScoreDao.save(overallScore);
         }
-        ScoreComparator scoreComparator = new ScoreComparator();
-        league.getOverallScores().sort(scoreComparator);
+        OverallScoreComparator overallScoreComparator = new OverallScoreComparator();
+        league.getOverallScores().sort(overallScoreComparator);
         int n = 1;
         for (OverallScore overallScore : league.getOverallScores()){
             overallScore.setPlace(n);
+            overallScoreDao.save(overallScore);
             n++;
         }
         return "redirect:/commissioner/"+league.getId();
