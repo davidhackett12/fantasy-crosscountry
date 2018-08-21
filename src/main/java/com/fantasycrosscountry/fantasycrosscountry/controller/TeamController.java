@@ -1,14 +1,8 @@
 package com.fantasycrosscountry.fantasycrosscountry.controller;
 
 
-import com.fantasycrosscountry.fantasycrosscountry.models.League;
-import com.fantasycrosscountry.fantasycrosscountry.models.Runner;
-import com.fantasycrosscountry.fantasycrosscountry.models.Team;
-import com.fantasycrosscountry.fantasycrosscountry.models.User;
-import com.fantasycrosscountry.fantasycrosscountry.models.data.LeagueDao;
-import com.fantasycrosscountry.fantasycrosscountry.models.data.RunnerDao;
-import com.fantasycrosscountry.fantasycrosscountry.models.data.TeamDao;
-import com.fantasycrosscountry.fantasycrosscountry.models.data.UserDao;
+import com.fantasycrosscountry.fantasycrosscountry.models.*;
+import com.fantasycrosscountry.fantasycrosscountry.models.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +26,9 @@ public class TeamController {
     @Autowired
     RunnerDao runnerDao;
 
+    @Autowired
+    OverallScoreDao overallScoreDao;
+
     @RequestMapping(value = "create/{leagueId}", method = RequestMethod.GET)
     public String createTeam(Model model, @CookieValue(value = "user", defaultValue = "none") String username){
         if (username.equals("none")){
@@ -51,9 +48,14 @@ public class TeamController {
 
         User user = userDao.findByUsername(username);
         League league = leagueDao.findOne(leagueId);
+        OverallScore overallScore = new OverallScore();
         team.setUser(user);
         team.setLeague(league);
         teamDao.save(team);
+        overallScore.setLeague(league);
+        overallScore.setTeam(team);
+        overallScoreDao.save(overallScore);
+
 
         return "redirect:/league/"+ leagueId;
 

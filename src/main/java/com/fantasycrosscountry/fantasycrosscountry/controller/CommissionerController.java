@@ -3,6 +3,7 @@ package com.fantasycrosscountry.fantasycrosscountry.controller;
 
 import com.fantasycrosscountry.fantasycrosscountry.models.*;
 import com.fantasycrosscountry.fantasycrosscountry.models.comparators.PerformanceComparator;
+import com.fantasycrosscountry.fantasycrosscountry.models.comparators.ScoreComparator;
 import com.fantasycrosscountry.fantasycrosscountry.models.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -200,6 +201,25 @@ public class CommissionerController {
             teamScoreDao.save(teamScore);
         }
         return "redirect:/commissioner/manageRace/"+race.getId();
+    }
+
+    @RequestMapping(value = "finalizeRace/{raceId}", method = RequestMethod.POST)
+    public String finalizeRace(@PathVariable int raceId){
+        Race race = raceDao.findOne(raceId);
+        League league = race.getLeague();
+
+        for (OverallScore overallScore : league.getOverallScores()){
+            overallScore.updateScore();
+        }
+        ScoreComparator scoreComparator = new ScoreComparator();
+        league.getOverallScores().sort(scoreComparator);
+        int n = 1;
+        for (OverallScore overallScore : league.getOverallScores()){
+            overallScore.setPlace(n);
+            n++;
+        }
+        return "redirect:/commissioner/"+league.getId();
+
     }
 
 }

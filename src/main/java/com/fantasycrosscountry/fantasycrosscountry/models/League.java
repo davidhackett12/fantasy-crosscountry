@@ -30,6 +30,10 @@ public class League {
     @JoinColumn(name = "league_id")
     private List<Race> races;
 
+    @OneToMany
+    @JoinColumn(name = "league_id")
+    private List<OverallScore> overallScores;
+
     public League() {
     }
 
@@ -91,5 +95,13 @@ public class League {
 
     public void setRaces(List<Race> races) {
         this.races = races;
+    }
+
+    public List<OverallScore> getOverallScores() {
+        return overallScores;
+    }
+
+    public void setOverallScores(List<OverallScore> overallScores) {
+        this.overallScores = overallScores;
     }
 }

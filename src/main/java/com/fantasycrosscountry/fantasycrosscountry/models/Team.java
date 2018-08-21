@@ -35,7 +35,8 @@ public class Team {
     @JoinColumn(name = "team_id")
     private List<TeamScore> teamScores;
 
-    private int overallScore;
+    @OneToOne(mappedBy = "team")
+    private OverallScore overallScore;
 
     public Team() {
     }
@@ -100,17 +101,6 @@ public class Team {
         this.teamScores = teamScores;
     }
 
-    public int getOverallScore() {
-        return overallScore;
-    }
-
-    public void setOverallScore() {
-        int score = 0;
-        for (TeamScore teamScore : teamScores){
-            score =+ teamScore.getScore();
-        }
-        this.overallScore = score;
-    }
 
     public List<Performance> getPerformances() {
         return performances;
@@ -118,5 +108,13 @@ public class Team {
 
     public void setPerformances(List<Performance> performances) {
         this.performances = performances;
+    }
+
+    public OverallScore getOverallScore() {
+        return overallScore;
+    }
+
+    public void setOverallScore(OverallScore overallScore) {
+        this.overallScore = overallScore;
     }
 }

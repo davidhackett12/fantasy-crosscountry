@@ -9,9 +9,15 @@
 
 <h1 th:text="${Title}"></h1>
 
-<ul th:each="team : ${teams}">
-    <li th:text="${team.name}"> </li>
-</ul>
+<table>
+    <tr th:each="overallScore : ${overallScores}">
+        <td th:text="${overallScore.place}"></td>
+        <td th:text="${overallScore.team.name}"></td>
+        <td th:text="${overallScore.score}"></td>
+
+    </tr>
+
+</table>
 
 
 </body>

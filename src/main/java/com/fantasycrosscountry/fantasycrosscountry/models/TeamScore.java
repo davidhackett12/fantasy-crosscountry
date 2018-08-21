@@ -6,19 +6,17 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class TeamScore {
+public class TeamScore extends Score {
 
     @Id
     @GeneratedValue
     private int id;
 
-    private Integer score;
+    @ManyToOne
+    private Team team;
 
     @ManyToOne
-    Team team;
-
-    @ManyToOne
-    Race race;
+    private Race race;
 
     public TeamScore() {
     }
@@ -32,13 +30,6 @@ public class TeamScore {
         this.id = id;
     }
 
-    public Integer getScore() {
-        return score;
-    }
-
-    public void setScore(Integer score) {
-        this.score = score;
-    }
 
     public Team getTeam() {
         return team;
@@ -55,4 +46,5 @@ public class TeamScore {
     public void setRace(Race race) {
         this.race = race;
     }
+
 }

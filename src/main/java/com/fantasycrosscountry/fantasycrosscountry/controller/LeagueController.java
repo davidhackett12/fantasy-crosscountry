@@ -92,7 +92,7 @@ public class LeagueController {
 
 
         model.addAttribute("Title", league.getName());
-        model.addAttribute("teams", league.getTeams());
+        model.addAttribute("overallScores", league.getOverallScores());
         model.addAttribute("league", league);
 
         return "league/index";
@@ -112,8 +112,8 @@ public class LeagueController {
         return "league/join";
     }
 
-    @RequestMapping(value = "join/{leagueId}")
-    public String joinLeague(Model model, @PathVariable int leagueId,
+    @RequestMapping(value = "join/{leagueId}", method = RequestMethod.GET)
+    public String joinLeague(@PathVariable int leagueId,
                        @CookieValue(value = "user", defaultValue = "none") String username){
 
         if (username.equals("none")){
@@ -121,7 +121,6 @@ public class LeagueController {
         }
 
         User user = userDao.findByUsername(username);
-        model.addAttribute("user", user);
         League league = leagueDao.findOne(leagueId);
         user.addLeague(league);
         userDao.save(user);
