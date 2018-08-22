@@ -156,4 +156,19 @@ public class TeamController {
         model.addAttribute("team", team);
         return "team/index";
     }
+
+    @RequestMapping(value = "viewRunner/{runnerId}")
+    public String viewRunner(Model model, @PathVariable int runnerId,
+                             @CookieValue(value= "user", defaultValue = "none") String username){
+        if (username.equals("none")){
+            return "redirect:/home/login";
+        }
+
+        User user = userDao.findByUsername(username);
+        model.addAttribute("user", user);
+        Runner runner = runnerDao.findOne(runnerId);
+        model.addAttribute("runner", runner);
+        return "team/viewRunner";
+
+    }
 }
