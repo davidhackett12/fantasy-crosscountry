@@ -1,5 +1,6 @@
 package com.fantasycrosscountry.fantasycrosscountry.controller;
 
+import com.fantasycrosscountry.fantasycrosscountry.models.Password;
 import com.fantasycrosscountry.fantasycrosscountry.models.User;
 import com.fantasycrosscountry.fantasycrosscountry.models.data.UserDao;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -48,6 +49,13 @@ public class HomeController {
         //creates a user if everything is valid//
         if(!errors.hasErrors() && user.getPassword().equals(verify) && sameName == null) {
             model.addAttribute("user", user);
+            String password = user.getPassword();
+            try {
+                String encodedPassword = Password.getSaltedHash(password);
+                user.setPassword(encodedPassword);
+            } catch (Exception e){
+                System.err.println(e.getMessage());
+            }
             userDao.save(user);
             Cookie cookie = new Cookie("user", user.getUsername());
             cookie.setPath("/");
@@ -79,22 +87,26 @@ public class HomeController {
     //processes login page//
     @RequestMapping(value="login", method = RequestMethod.POST)
     public String processLogin(Model model, String username, String password, HttpServletResponse response){
-        User user = userDao.findByUsername(username);
-        if (user == null){
-            model.addAttribute("error", "Username not found");
-            model.addAttribute("username", username);
-            return "home/login";
-        }
-        else if (!user.getPassword().equals(password)){
-            model.addAttribute("error", "incorrect password");
-            model.addAttribute("username", username);
-            return "home/login";
-        }
+        try {
+            User user = userDao.findByUsername(username);
+            if (user == null) {
+                model.addAttribute("error", "Username not found");
+                model.addAttribute("username", username);
+                return "home/login";
+            } else if (!Password.check(password, user.getPassword())) {
+                model.addAttribute("error", "incorrect password");
+                model.addAttribute("username", username);
+                return "home/login";
+            }
 
-        Cookie cookie = new Cookie("user", user.getUsername());
-        cookie.setPath("/");
-        response.addCookie(cookie);
-        return "redirect:";
+            Cookie cookie = new Cookie("user", user.getUsername());
+            cookie.setPath("/");
+            response.addCookie(cookie);
+            return "redirect:";
+        } catch(Exception e){
+            System.err.println(e.getMessage());
+            return "redirect:";
+        }
     }
 
     //for logging out, obviously//

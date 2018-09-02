@@ -22,7 +22,7 @@ public class User {
     private String email;
 
     @NotNull
-    @Size(min = 5, max = 20)
+    @Column(length = 1000)
     private String password;
 
     @OneToMany
