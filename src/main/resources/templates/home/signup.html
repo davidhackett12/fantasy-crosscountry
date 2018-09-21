@@ -6,29 +6,36 @@
 
 <nav th:replace="fragments :: heading"></nav>
 
+<div class="row">
+    <div class="col-md-8">
+        <h3>User Sign Up</h3>
+        <br/>
+        <form method="post" style="max-width:600px;" th:object="${user}">
+            <div class="form-group">
+                <label th:for="username">Username</label>
+                <input class="form-control" th:field="*{username}" />
+                <span th:errors="*{username}" class="error"></span>
+            </div>
+            <div class="form-group">
+                <label th:for="email">Email</label>
+                <input class="form-control" th:field="*{email}" />
+                <span th:errors="*{email}" class="error"></span>
+            </div>
+            <div class="form-group">
+                <label th:for="password">Password</label>
+                <input class="form-control" type="password" th:field="*{password}" />
+                <span th:errors="*{password}" class="error"></span>
+            </div>
+            <div class="form-group">
+                <label th:for="verify">Verify Password</label>
+                <input class ="form-control" type= "password" th:name="verify" />
+            </div>
+            <span name="error" th:text="${error}"></span>
+            <input type="submit" value="Sign Up" />
+        </form>
+    </div>
 
-<form method="post" style="max-width:600px;" th:object="${user}">
-    <div class="form-group">
-        <label th:for="username">Username</label>
-        <input class="form-control" th:field="*{username}" />
-        <span th:errors="*{username}" class="error"></span>
-    </div>
-    <div class="form-group">
-        <label th:for="email">Email</label>
-        <input class="form-control" th:field="*{email}" />
-        <span th:errors="*{email}" class="error"></span>
-    </div>
-    <div class="form-group">
-        <label th:for="password">Password</label>
-        <input class="form-control" type="password" th:field="*{password}" />
-        <span th:errors="*{password}" class="error"></span>
-    </div>
-    <div class="form-group">
-    <label th:for="verify">Verify Password</label>
-        <input class ="form-control" type= "password" th:name="verify" />
-    </div>
-    <span name="error" th:text="${error}"></span>
-    <input type="submit" value="Sign Up" />
-</form>
+</div>
+
 </body>
 </html>

@@ -5,19 +5,25 @@
 <body>
 <nav th:replace="fragments :: heading"></nav>
 
-<form method="post">
-    <input type="text" th:name="file" />
-    <input type="submit" />
+<div class="row">
+    <div class="col-md-6">
+        <h3>Add Runners</h3>
+        <br/>
+        <p>Upload a CSV with runner names in one column and the high school in another</p>
+        <form method="post">
+            <input type="text" th:name="file" />
+            <input type="submit" />
+        </form>
+    </div>
+</div>
 
-<!--<div class="form-group">-->
-    <!--<label for="runnerlist">File input</label>-->
-    <!--<input type="file" class="form-control-file" id="runnerlist" th:name="file" aria-describedby="fileHelp"/>-->
-    <!--<small id="fileHelp" class="form-text text-muted">Please upload a CSV file with two columns; one for the runner's name and one for the high school. Do not include a header row</small>-->
-<!--</div>-->
-    <!--<input type="submit"/>-->
-</form>
+<div class="row">
+    <div  class="col-md-6">
+        <a th:href= "@{/commissioner/{id}(id=${league.id})}">Back to Commissioner Main Page</a>
+    </div>
+</div>
 
-<a th:href= "@{/commissioner/{id}(id=${league.id})}">Back to Commissioner Main Page</a>
+
 
 
 </body>

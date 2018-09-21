@@ -1,6 +1,7 @@
 package com.fantasycrosscountry.fantasycrosscountry.models;
 
 import javax.persistence.*;
+import java.time.Duration;
 import java.util.List;
 
 @Entity
@@ -17,8 +18,6 @@ public class Runner {
     @ManyToOne
     private Team team;
 
-    @ManyToOne
-    private Team lineup;
 
     @ManyToOne
     private League league;
@@ -26,6 +25,11 @@ public class Runner {
     @OneToMany
     @JoinColumn(name = "runner_id")
     private List<Performance> performanceList;
+
+    @ManyToMany
+    private List<Lineup> lineups;
+
+    private String personalBest;
 
     public Runner() {
     }
@@ -76,14 +80,6 @@ public class Runner {
         this.league = league;
     }
 
-    public Team getLineup() {
-        return lineup;
-    }
-
-    public void setLineup(Team lineup) {
-        this.lineup = lineup;
-    }
-
 
     public List<Performance> getPerformanceList() {
         return performanceList;
@@ -91,5 +87,36 @@ public class Runner {
 
     public void setPerformanceList(List<Performance> performanceList) {
         this.performanceList = performanceList;
+    }
+
+    public List<Lineup> getLineups() {
+        return lineups;
+    }
+
+    public void setLineups(List<Lineup> lineups) {
+        this.lineups = lineups;
+    }
+
+    public void addLineup(Lineup lineup){
+        this.lineups.add(lineup);
+    }
+
+    public void removeLineup(Lineup lineup){
+        this.lineups.remove(lineup);
+    }
+
+    public String getPersonalBest() {
+        return personalBest;
+    }
+
+    public void setPersonalBest() {
+        Performance currentBest = new Performance("99","99","99");
+        for (Performance performance : performanceList){
+            if (performance.getTime().compareTo(currentBest.getTime()) < 0){
+                currentBest = performance;
+            }
+        }
+
+        this.personalBest = currentBest.toString();
     }
 }

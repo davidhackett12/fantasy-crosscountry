@@ -5,47 +5,72 @@
 <body>
 <nav th:replace="fragments :: heading"></nav>
 
-<form method="post" th:object="${performance}">
+<div class="row">
+    <div class="col-md-6">
+        <form method="post" th:object="${performance}">
+            <legend>Add a time</legend>
+            <p>Please choose a runner:</p>
+            <select class="custom-select" th:name="runnerId">
+                <option th:each="runner : ${competingRunners}"
+                        th:value="${runner.id}"
+                        th:text="${runner.name}">
+                </option>
+            </select>
+            <br/>
+            <div class="form-group">
+                <label th:for="*{minutes}">Minutes:</label>
+                <input class="form-control" type="number" th:field="*{minutes}" />
+                <label th:for="*{seconds}">Seconds:</label>
+                <input class="form-control" type="number" th:field="*{seconds}" />
+                <label th:for="*{milliseconds}">Milliseconds:</label>
+                <input class="form-control" type="number" th:field="*{milliseconds}" />
+            </div>
 
-    <select th:name="runnerId">
-        <option th:each="runner : ${competingRunners}"
-                th:value="${runner.id}"
-                th:text="${runner.name}">
-        </option>
-    </select>
 
-    <input type="number" th:field="*{minutes}" />
-    <label th:for="*{minutes}">Minutes</label>
-    <input type="number" th:field="*{seconds}" />
-    <label th:for="*{seconds}">Seconds</label>
-    <input type="number" th:field="*{milliseconds}" />
-    <label th:for="*{milliseconds}">Milliseconds</label>
 
-    <input type="submit" value="Add Time"/>
+            <input type="submit" value="Add Time"/>
 
-</form>
+        </form>
+        <a th:href="@{/commissioner/finalizeRace/{id}(id=${league.id})}">This Race is complete and ready to be scored</a>
+        <br/>
+        <a th:href= "@{/commissioner/{id}(id=${league.id})}">Back to Commissioner Main Page</a>
+    </div>
+</div>
 
-<table>
-    <tr th:each="performance : ${race.performances}">
-        <td th:text="${performance.runner.name}"></td>
-        <td th:text="${performance.team.name}"></td>
-        <td th:text="${performance}"></td>
-        <td th:text="${performance.place}"></td>
-    </tr>
+<div class="row">
+    <div class="col-md-8">
+        <table class="table">
+            <th>Runner</th>
+            <th>Team</th>
+            <th>Time</th>
+            <th>Place</th>
+            <tr th:each="performance : ${race.performances}">
+                <td th:text="${performance.runner.name}"></td>
+                <td th:text="${performance.team.name}"></td>
+                <td th:text="${performance}"></td>
+                <td th:text="${performance.place}"></td>
+            </tr>
 
-</table>
+        </table>
 
-<table>
-    <tr th:each="teamScore : ${race.teamScores}">
-        <td th:text="${teamScore.team.name}"></td>
-        <td th:text="${teamScore.score}"></td>
-    </tr>
 
-</table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <table class="table">
+            <th>Team</th>
+            <th>Score</th>
+            <tr th:each="teamScore : ${race.teamScores}">
+                <td th:text="${teamScore.team.name}"></td>
+                <td th:text="${teamScore.score}"></td>
+            </tr>
 
-<a th:href="@{/commissioner/finalizeRace/{id}(id=${league.id})}">This Race is complete and ready to be scored</a>
-<br/>
-<a th:href= "@{/commissioner/{id}(id=${league.id})}">Back to Commissioner Main Page</a>
+        </table>
+    </div>
+</div>
+
+
 
 
 </body>

@@ -43,6 +43,9 @@ public class CommissionerController {
     @Autowired
     OverallScoreDao overallScoreDao;
 
+    @Autowired
+    LineupDao lineupDao;
+
     @RequestMapping(value = "{leagueId}")
     public String index(Model model, @PathVariable int leagueId,
                         @CookieValue(value = "user", defaultValue = "none") String username){
@@ -143,6 +146,10 @@ public class CommissionerController {
             teamScore.setRace(race);
             teamScore.setTeam(team);
             teamScoreDao.save(teamScore);
+            Lineup lineup = new Lineup();
+            lineup.setRace(race);
+            lineup.setTeam(team);
+            lineupDao.save(lineup);
         }
         return "redirect:/commissioner/manageRace/"+race.getId();
     }
@@ -159,8 +166,8 @@ public class CommissionerController {
         Race race = raceDao.findOne(raceId);
         League league = race.getLeague();
         List<Runner> competingRunners = new ArrayList<>();
-        for (Team team : league.getTeams()){
-            for (Runner runner : team.getStarters()){
+        for (Lineup lineup : race.getLineups()){
+            for (Runner runner : lineup.getRunners()){
                 competingRunners.add(runner);
             }
         }
@@ -223,6 +230,13 @@ public class CommissionerController {
             overallScoreDao.save(overallScore);
             n++;
         }
+
+        for (Lineup lineup : race.getLineups()){
+            for (Runner runner :  lineup.getRunners()){
+                runner.setPersonalBest();
+            }
+        }
+
         return "redirect:/commissioner/"+league.getId();
 
     }

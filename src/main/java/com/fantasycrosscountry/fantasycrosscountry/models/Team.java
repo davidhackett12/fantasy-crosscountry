@@ -23,9 +23,6 @@ public class Team {
     @JoinColumn(name = "team_id")
     private List<Runner> runners;
 
-    @OneToMany
-    @JoinColumn(name = "lineup_id")
-    private List<Runner> starters;
 
     @OneToMany
     @JoinColumn(name = "team_id")
@@ -37,6 +34,10 @@ public class Team {
 
     @OneToOne(mappedBy = "team")
     private OverallScore overallScore;
+
+    @OneToMany
+    @JoinColumn(name = "team_id")
+    private List<Lineup> lineups;
 
     public Team() {
     }
@@ -85,13 +86,6 @@ public class Team {
         this.runners = runners;
     }
 
-    public List<Runner> getStarters() {
-        return starters;
-    }
-
-    public void setStarters(List<Runner> starters) {
-        this.starters = starters;
-    }
 
     public List<TeamScore> getTeamScores() {
         return teamScores;
@@ -116,5 +110,13 @@ public class Team {
 
     public void setOverallScore(OverallScore overallScore) {
         this.overallScore = overallScore;
+    }
+
+    public List<Lineup> getLineups() {
+        return lineups;
+    }
+
+    public void setLineups(List<Lineup> lineups) {
+        this.lineups = lineups;
     }
 }

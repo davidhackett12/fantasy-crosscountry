@@ -5,24 +5,44 @@
 <body>
 
 <nav th:replace="fragments :: heading"></nav>
+<div class="row">
+    <div class="col-md-12">
+        <h3 th:text="${race.name} + ' Results'"></h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <table class="table">
+            <th>Runner</th>
+            <th>Team</th>
+            <th>Time</th>
+            <th>Place</th>
+            <tr th:each="performance : ${race.performances}">
+                <td th:text="${performance.runner.name}"></td>
+                <td th:text="${performance.team.name}"></td>
+                <td th:text="${performance}"></td>
+                <td th:text="${performance.place}"></td>
+            </tr>
 
-<table>
-    <tr th:each="performance : ${race.performances}">
-        <td th:text="${performance.runner.name}"></td>
-        <td th:text="${performance.team.name}"></td>
-        <td th:text="${performance}"></td>
-        <td th:text="${performance.place}"></td>
-    </tr>
+        </table>
 
-</table>
 
-<table>
-    <tr th:each="teamScore : ${race.teamScores}">
-        <td th:text="${teamScore.team.name}"></td>
-        <td th:text="${teamScore.score}"></td>
-    </tr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <table class="table">
+            <th>Team</th>
+            <th>Score</th>
+            <tr th:each="teamScore : ${race.teamScores}">
+                <td th:text="${teamScore.team.name}"></td>
+                <td th:text="${teamScore.score}"></td>
+            </tr>
 
-</table>
+        </table>
+    </div>
+</div>
+
 
 </body>
 </html>

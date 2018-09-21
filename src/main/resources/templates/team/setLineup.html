@@ -7,20 +7,20 @@
 
 <div class="row">
     <div class="col-md-4">
-        <p th:value="${error}" ></p>
-
         <form method="post">
             <fieldset>
                 <fieldset class="form-group">
                     <legend>Starting Lineup</legend>
-                    <div th:each="starter : ${team.starters}" class="form-check">
+                    <p>Select a runner to remove from your lineup:</p>
+                    <div th:each="starter : ${starters}" class="form-check">
                         <input type="radio" class="form-check-input" th:name="removedRunnerId" th:value="${starter.id}"/>
                         <label class="form-check-label" th:for="removedRunnerId" th:text="${starter.name}"></label>
                     </div>
                 </fieldset>
                 <fieldset class="form-group">
                     <legend>Bench</legend>
-                    <div th:each="runner : ${team.runners}" th:unless="${runner.lineup}" class="form-check">
+                    <p>Select a runner to add to your lineup:</p>
+                    <div th:each="runner : ${bench}" class="form-check">
                         <input type="radio" class="form-check-input" th:name="addedRunnerId" th:value="${runner.id}"/>
                         <label class="form-check-label" th:for="addedRunnerId" th:text="${runner.name}"></label>
                     </div>

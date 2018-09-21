@@ -7,6 +7,7 @@ import com.fantasycrosscountry.fantasycrosscountry.models.data.TeamScoreDao;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,6 +30,16 @@ public class Race {
     @OneToMany
     @JoinColumn(name = "race_id")
     private List<TeamScore> teamScores;
+
+    @OneToMany
+    @JoinColumn(name = "race_id")
+    private List<Lineup> lineups;
+
+    private Calendar startDate;
+
+    private Calendar endDate;
+
+    private Boolean currentRace;
 
 
     public Race() {
@@ -83,5 +94,35 @@ public class Race {
         this.teamScores = teamScores;
     }
 
+    public List<Lineup> getLineups() {
+        return lineups;
+    }
 
+    public void setLineups(List<Lineup> lineups) {
+        this.lineups = lineups;
+    }
+
+    public Calendar getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Calendar startDate) {
+        this.startDate = startDate;
+    }
+
+    public Calendar getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Calendar endDate) {
+        this.endDate = endDate;
+    }
+
+    public Boolean getCurrentRace() {
+        return currentRace;
+    }
+
+    public void setCurrentRace(Boolean currentRace) {
+        this.currentRace = currentRace;
+    }
 }

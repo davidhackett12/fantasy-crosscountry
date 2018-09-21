@@ -4,15 +4,43 @@
 </head>
 <body>
 <nav th:replace="fragments :: heading"></nav>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3 th:text="${team.name}"></h3>
+    </div>
+
+</div>
 <div class="row">
     <div class="col-md-6">
         <h4>Current Roster</h4>
-        <ul>
-            <li th:each="runner : ${team.runners}" th:text="${runner.name}+ ' ' + ${runner.highSchool}"></li>
-        </ul>
-        <a th:href= "@{/team/setLineup/{id}(id=${team.id})}">Set Lineup</a>
+        <table class="table">
+            <thead>
+            <th>Runner</th>
+            <th>High School</th>
+            </thead>
+            <tbody>
+            <tr th:each="runner : ${team.runners}">
+                <td><a th:href="@{/team/viewRunner/{id}(id=${runner.id})}" th:text="${runner.name}"></a></td>
+                <td th:text="${runner.highSchool}"></td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+<div th:if="${teamOwner}" class = "row">
+    <div  class="col-md-6">
+        <button type="button" class="btn btn-primary"><a th:href= "@{/team/lineupMenu/{id}(id=${team.id})}">Set Lineup</a></button>
+        <button type="button" class="btn btn-primary"><a th:href="@{/team/addRunner/{id}(id=${team.id})}">Add/Drop Runners</a></button>
+
+    </div>
+</div>
+<div th:unless="${teamOwner}" class = "row">
+    <div  class="col-md-6">
+        <a th:href= "@{/team/setLineup/{id}(id=${team.id})}">Propose Trade</a>
         <br/>
-        <a th:href="@{/team/addRunner/{id}(id=${team.id})}">Add/Drop Runners</a>
+        <a th:href="@{/team/addRunner/{id}(id=${team.id})}">Send Message</a>
     </div>
 </div>
 

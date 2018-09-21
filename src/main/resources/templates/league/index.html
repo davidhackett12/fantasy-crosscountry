@@ -5,25 +5,41 @@
 <body>
 
 <nav th:replace="fragments :: heading"></nav>
+<div class="row">
+    <div class="col-md-12">
+        <h1 th:text="${Title}"></h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+
+        <h3>League Standings</h3>
+        <br/>
+        <table class="table">
+            <th>Place</th>
+            <th>Team</th>
+            <th>Score</th>
+            <tr th:each="overallScore : ${overallScores}">
+                <td th:text="${overallScore.place}"></td>
+                <td th:text="${overallScore.team.name}"></td>
+                <td th:text="${overallScore.score}"></td>
+                <td><a th:href="@{/team/{id}(id=${overallScore.team.id})}">view</a></td>
+
+            </tr>
+
+        </table>
 
 
-<h1 th:text="${Title}"></h1>
+    </div>
+    <div class="col-md-6">
+        <h3>Week By Week Results</h3>
+        <br/>
+        <ul th:each="race : ${league.races}">
+            <li><a th:href="@{/league/results/{id}(id=${race.id})}" th:text="${race.name}"></a></li>
+        </ul>
+    </div>
+</div>
 
-<h3>Standings</h3>
-<table>
-    <tr th:each="overallScore : ${overallScores}">
-        <td th:text="${overallScore.place}"></td>
-        <td th:text="${overallScore.team.name}"></td>
-        <td th:text="${overallScore.score}"></td>
-
-    </tr>
-
-</table>
-
-<h3>Week By Week Results</h3>
-<ul th:each="race : ${league.races}">
-    <li><a th:href="@{/league/results/{id}(id=${race.id})}" th:text="${race.name}"></a></li>
-</ul>
 
 </body>
 </html>

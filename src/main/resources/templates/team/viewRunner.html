@@ -13,7 +13,15 @@
             <h4 th:text="${runner.highSchool}"></h4>
         </div>
         <div>
-            <table>
+            <table class="table">
+                <th>Personal Best</th>
+                <tr>
+                    <td th:text="${runner.personalBest}"></td>
+                </tr>
+            </table>
+            <table class="table">
+                <th>Time</th>
+                <th>Race</th>
                 <tr th:each="performance : ${runner.performanceList}">
                     <td th:text="${performance}"></td>
                     <td th:text="${performance.race.name}"></td>

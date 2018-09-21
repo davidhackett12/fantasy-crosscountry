@@ -6,19 +6,26 @@
 
 <nav th:replace="fragments :: heading"></nav>
 
+<div class="row">
+    <div class="col-md-8">
+        <h3>User Login</h3>
+        <br/>
+        <form method="post" style="max-width:600px;">
+            <div class="form-group">
+                <label th:for="username">Username</label>
+                <input class="form-control" th:name="username" th:value="${username}"/>
+            </div>
+            <div class="form-group">
+                <label th:for="password">Password</label>
+                <input class="form-control" type="password" th:name="password" />
+            </div>
+            <input type="submit" value="Login" />
+            <span name="error" th:text ="${error}"></span>
+        </form>
+    </div>
 
-<form method="post" style="max-width:600px;">
-    <div class="form-group">
-        <label th:for="username">Username</label>
-        <input class="form-control" th:name="username" th:value="${username}"/>
-    </div>
-    <div class="form-group">
-        <label th:for="password">Password</label>
-        <input class="form-control" type="password" th:name="password" />
-    </div>
-    <input type="submit" value="Login" />
-    <span name="error" th:text ="${error}"></span>
-</form>
+</div>
+
 
 </body>
 </html>

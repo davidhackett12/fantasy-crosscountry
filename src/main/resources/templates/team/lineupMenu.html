@@ -3,21 +3,15 @@
 <head th:replace="fragments :: head">
 </head>
 <body>
-
 <nav th:replace="fragments :: heading"></nav>
 
 <div class="row">
-    <div class="col-md-4">
-        <h3>Join a League</h3>
+    <div class="col-md-6">
         <ul>
-            <li th:each="league : ${leagues}">
-                <a th:text="${league.name}" th:href="@{/league/join/{id}(id=${league.id})}"></a>
-            </li>
+            <li th:each="lineup : ${lineups}"><a th:text="${lineup.race.name}"
+                                                 th:href= "@{/team/setLineup/{id}(id=${lineup.id})}"></a></li>
         </ul>
-
     </div>
 </div>
-
-
 </body>
 </html>

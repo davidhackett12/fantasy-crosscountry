@@ -5,7 +5,11 @@
 <body>
 <nav th:replace="fragments :: heading"></nav>
 
-
+<div class="row">
+    <div class="col-md-12">
+        <h2>Add/Drop Runners</h2>
+    </div>
+</div>
 <div class="row">
 
     <div class="col-md-4">
@@ -36,6 +40,9 @@
             </fieldset>
         </form>
         <a th:href= "@{/team/{id}(id=${team.id})}">Back to Team Page</a>
+    </div>
+    <div class="col-md-4">
+
     </div>
 </div>
 </body>
