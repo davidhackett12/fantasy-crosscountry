@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body>
+<nav th:replace="fragments :: heading"></nav>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <fieldset>
+                <fieldset class="form-group">
+                    <legend>Your Team</legend>
+                    <p>Select a runner to trade away:</p>
+                    <div th:each="runner : ${proposerTeam.runners}" class="form-check">
+                        <input type="checkbox" class="form-check-input" th:name="proposerRunnerId" th:value="${runner.id}"/>
+                        <label class="form-check-label" th:for="proposerRunnerId" th:text="${runner.name}"></label>
+                    </div>
+                </fieldset>
+                <fieldset class="form-group">
+                    <legend th:text="${proposeeTeam.name}"></legend>
+                    <p>Select a runner to receive in the trade:</p>
+                    <div th:each="oppRunner : ${proposeeTeam.runners}" class="form-check">
+                        <input type="checkbox" class="form-check-input" th:name="proposeeRunnerId" th:value="${oppRunner.id}"/>
+                        <label class="form-check-label" th:for="proposeeRunnerId" th:text="${oppRunner.name}"></label>
+                    </div>
+                </fieldset>
+                <input type="hidden" name="proposerTeamId" value="proposerTeam.id"/>
+                <input type="submit" value="Submit Trade Proposal" />
+            </fieldset>
+        </form>
+        <a th:href= "@{/team/{id}(id=${proposeeTeam.id})}">Back to Team Page</a>
+    </div>
+</div>
+
+</body>
+</html>

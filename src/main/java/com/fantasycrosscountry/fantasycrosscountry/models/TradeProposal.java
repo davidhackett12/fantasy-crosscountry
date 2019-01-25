@@ -1,10 +1,9 @@
 package com.fantasycrosscountry.fantasycrosscountry.models;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
 public class TradeProposal {
 
     @Id
@@ -17,9 +16,24 @@ public class TradeProposal {
     @ManyToOne
     private Team proposee;
 
-    private List<Integer> proposerRunners;
+    @OneToMany
+    @JoinColumn(name = "trade_away_id")
+    private List<Runner> proposerRunners;
 
-    private List<Integer> proposeeRunners;
+    @OneToMany
+    @JoinColumn(name = "trade_for_id")
+    private List<Runner> proposeeRunners;
+
+    @OneToMany
+    @JoinColumn(name = "drop_id")
+    private List<Runner> runnersToDrop;
+
+    public TradeProposal() {
+    }
+
+    public TradeProposal(Team proposer) {
+        this.proposer = proposer;
+    }
 
     public int getId() {
         return id;
@@ -45,19 +59,27 @@ public class TradeProposal {
         this.proposee = proposee;
     }
 
-    public List<Integer> getProposerRunners() {
+    public List<Runner> getProposerRunners() {
         return proposerRunners;
     }
 
-    public void setProposerRunners(List<Integer> proposerRunners) {
+    public void setProposerRunners(List<Runner> proposerRunners) {
         this.proposerRunners = proposerRunners;
     }
 
-    public List<Integer> getProposeeRunners() {
+    public List<Runner> getProposeeRunners() {
         return proposeeRunners;
     }
 
-    public void setProposeeRunners(List<Integer> proposeeRunners) {
+    public void setProposeeRunners(List<Runner> proposeeRunners) {
         this.proposeeRunners = proposeeRunners;
+    }
+
+    public List<Runner> getRunnersToDrop() {
+        return runnersToDrop;
+    }
+
+    public void setRunnersToDrop(List<Runner> runnersToDrop) {
+        this.runnersToDrop = runnersToDrop;
     }
 }

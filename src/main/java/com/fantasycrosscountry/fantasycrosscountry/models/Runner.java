@@ -31,6 +31,15 @@ public class Runner {
 
     private String personalBest;
 
+    @ManyToOne
+    private TradeProposal trade_away;
+
+    @ManyToOne
+    private TradeProposal trade_for;
+
+    @ManyToOne
+    private TradeProposal drop;
+
     public Runner() {
     }
 
@@ -118,5 +127,29 @@ public class Runner {
         }
 
         this.personalBest = currentBest.toString();
+    }
+
+    public TradeProposal getTrade_away() {
+        return trade_away;
+    }
+
+    public void setTrade_away(TradeProposal trade_away) {
+        this.trade_away = trade_away;
+    }
+
+    public TradeProposal getTrade_for() {
+        return trade_for;
+    }
+
+    public void setTrade_for(TradeProposal trade_for) {
+        this.trade_for = trade_for;
+    }
+
+    public TradeProposal getDrop() {
+        return drop;
+    }
+
+    public void setDrop(TradeProposal drop) {
+        this.drop = drop;
     }
 }

@@ -38,7 +38,7 @@
 </div>
 <div th:unless="${teamOwner}" class = "row">
     <div  class="col-md-6">
-        <a th:href= "@{/team/setLineup/{id}(id=${team.id})}">Propose Trade</a>
+        <a th:href= "@{/team/proposeTrade/{id}(id=${team.id})}">Propose Trade</a>
         <br/>
         <a th:href="@{/team/addRunner/{id}(id=${team.id})}">Send Message</a>
     </div>

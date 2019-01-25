@@ -36,6 +36,9 @@ public class TeamController {
     @Autowired
     LineupDao lineupDao;
 
+    @Autowired
+    TradeProposalDao tradeProposalDao;
+
     @RequestMapping(value = "create/{leagueId}", method = RequestMethod.GET)
     public String createTeam(Model model, @CookieValue(value = "user", defaultValue = "none") String username){
         if (username.equals("none")){
@@ -204,14 +207,93 @@ public class TeamController {
         return "team/index";
     }
 
-//    @RequestMapping(value = "proposeTrade/{teamId}")
-//    public String proposeTrade(Model model,@PathVariable int teamId,
-//                        @CookieValue(value = "user", defaultValue = "none") String username){
-//        if (username.equals("none")){
-//            return "redirect:/home/login";
-//        }
-//
-//    }
+    @RequestMapping(value = "proposeTrade/{teamId}", method = RequestMethod.GET )
+    public String proposeTrade(Model model,@PathVariable int teamId,
+                        @CookieValue(value = "user", defaultValue = "none") String username){
+        if (username.equals("none")){
+            return "redirect:/home/login";
+        }
+        Team proposeeTeam = teamDao.findOne(teamId);
+        Team proposerTeam = null;
+        League league = proposeeTeam.getLeague();
+        User user = userDao.findByUsername(username);
+        for (Team team : user.getTeams()){
+            if (team.getLeague().equals(league)){
+                proposerTeam = team;
+            }
+        }
+
+        model.addAttribute("proposeeTeam", proposeeTeam);
+        model.addAttribute("proposerTeam", proposerTeam);
+
+        return "team/proposeTrade";
+
+    }
+
+    @RequestMapping(value = "proposeTrade/{teamId}", method = RequestMethod.POST)
+    public String processTradeProposal(@PathVariable int teamId,
+            int[] proposerRunnerId, int[] proposeeRunnerId, int proposerTeamId ){
+
+
+        if (proposeeRunnerId.length < 1 || proposerRunnerId.length< 1){
+            return "redirect:/proposeTrade/" + teamId;
+        }
+
+        Team proposerTeam = teamDao.findOne(proposerTeamId);
+
+        TradeProposal tradeProposal = new TradeProposal(proposerTeam);
+        tradeProposalDao.save(tradeProposal);
+
+        for (int runnerId : proposerRunnerId){
+            Runner runnerTradeAway = runnerDao.findOne(runnerId);
+            runnerTradeAway.setTrade_away(tradeProposal);
+            runnerDao.save(runnerTradeAway);
+        }
+
+        for (int oppRunnerId : proposeeRunnerId){
+            Runner runnerTradeFor = runnerDao.findOne(oppRunnerId);
+            runnerTradeFor.setTrade_for(tradeProposal);
+            runnerDao.save(runnerTradeFor);
+        }
+
+        if (proposerRunnerId.length < proposeeRunnerId.length){
+            return "redirect:/team/tradeDropRunner/" + tradeProposal.getId();
+        }
+
+        return "redirect:/team/confirmTrade/" +tradeProposal.getId();
+
+    }
+
+    @RequestMapping(value = "tradeDropRunner/{tradeProposalId}", method = RequestMethod.GET)
+    public String tradeDropRunner(Model model, @PathVariable int tradeProposalId,
+                                  @CookieValue(value = "user", defaultValue = "none") String username){
+        if (username.equals("none")){
+            return "redirect:/home/login";
+        }
+
+        TradeProposal tradeProposal = tradeProposalDao.findOne(tradeProposalId);
+        User user = userDao.findByUsername(username);
+        List<Runner> runnerList = new ArrayList<>();
+        if (tradeProposal.getProposee().getUser().equals(user)){
+            for (Runner runner : tradeProposal.getProposee().getRunners()){
+                if (!runner.getTrade_for().equals(tradeProposal)){
+                    runnerList.add(runner);
+                }
+            }
+        } else {
+            for (Runner runner : tradeProposal.getProposer().getRunners()){
+                if (!runner.getTrade_away().equals(tradeProposal)){
+                    runnerList.add(runner);
+                }
+            }
+        }
+
+        model.addAttribute(runnerList);
+        model.addAttribute(tradeProposal);
+        return "team/tradeDropRunner";
+
+
+    }
 
     @RequestMapping(value = "viewRunner/{runnerId}")
     public String viewRunner(Model model, @PathVariable int runnerId,

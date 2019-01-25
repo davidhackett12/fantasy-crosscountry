@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body>
+<nav th:replace="fragments :: heading"></nav>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <fieldset>
+                <fieldset class="form-group">
+                    <legend>Drop Runners</legend>
+                    <p>Select runners to drop:</p>
+                    <div th:each="runner : ${runnerList}" class="form-check">
+                        <input type="checkbox" class="form-check-input" th:name="runnerToDropId" th:value="${runner.id}"/>
+                        <label class="form-check-label" th:for="runnerToDropId" th:text="${runner.name}"></label>
+                    </div>
+                </fieldset>
+                <input type="submit" value="Drop Runners" />
+            </fieldset>
+        </form>
+        <a th:href= "@{/team/cancelTrade/{id}(id=${tradeProposal.id})}">Cancel Trade</a>
+
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -39,6 +39,14 @@ public class Team {
     @JoinColumn(name = "team_id")
     private List<Lineup> lineups;
 
+    @OneToMany
+    @JoinColumn(name = "proposer_id")
+    private List<TradeProposal> tradesProposedBy;
+
+    @OneToMany
+    @JoinColumn(name = "proposee_id")
+    private List<TradeProposal> tradesProposedTo;
+
     public Team() {
     }
 
@@ -118,5 +126,21 @@ public class Team {
 
     public void setLineups(List<Lineup> lineups) {
         this.lineups = lineups;
+    }
+
+    public List<TradeProposal> getTradesProposedBy() {
+        return tradesProposedBy;
+    }
+
+    public void setTradesProposedBy(List<TradeProposal> tradesProposedBy) {
+        this.tradesProposedBy = tradesProposedBy;
+    }
+
+    public List<TradeProposal> getTradesProposedTo() {
+        return tradesProposedTo;
+    }
+
+    public void setTradesProposedTo(List<TradeProposal> tradesProposedTo) {
+        this.tradesProposedTo = tradesProposedTo;
     }
 }
